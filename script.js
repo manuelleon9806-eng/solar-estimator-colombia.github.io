@@ -15,14 +15,13 @@ document.getElementById("btn-step-1").addEventListener("click", () => {
 });
 
 document.getElementById("btn-step-2").addEventListener("click", () => {
-  const presupuesto = document.getElementById("presupuesto").value;
-
   document.getElementById("step-2").classList.remove("active");
   document.getElementById("step-3").classList.add("active");
 
   document.getElementById("resultado").innerText =
-    `Con un consumo de ${consumo} kWh, la energía solar es viable para ti.`;
+    `Con un consumo de ${consumo} kWh mensuales, la energía solar es una opción viable para ti en Colombia.`;
 });
+
 
 
 
