@@ -1,155 +1,41 @@
 <!DOCTYPE html>
-<div id="calculator">
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estimador Solar | Colombia</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <div class="step active">
-    <h2>Calcula tu sistema solar en 1 minuto</h2>
+<header>
+  <h1>Energía solar clara y sin vueltas</h1>
+  <p>Estima sistemas solares según tu consumo.</p>
+</header>
 
-<p>
-    Ingresa tu consumo mensual aproximado en kilovatios hora (kWh).
-    Esta información aparece en tu factura de energía.
-</p>
+<section id="calculator">
 
-<input 
-    type="number" 
-    id="consumo" 
-    placeholder="Ej: 300 kWh"
-    min="0"
->
-
-<button id="next1">
-    Continuar
-</button>
-
+  <!-- PASO 1 -->
+  <div class="step active" id="step-1">
     <h2>¿Cuál es tu consumo mensual?</h2>
-    <input type="number" id="consumo" placeholder="kWh mensuales">
-    <button id="next1">Siguiente</button>
+    <input type="number" id="consumo" placeholder="Ej: 300 kWh">
+    <button id="btn-step-1">Continuar</button>
   </div>
 
-  <div class="step">
+  <!-- PASO 2 -->
+  <div class="step" id="step-2">
     <h2>¿Cuál es tu presupuesto?</h2>
     <input type="number" id="presupuesto" placeholder="$ COP">
-    <button id="next2">Siguiente</button>
+    <button id="btn-step-2">Ver resultado</button>
   </div>
 
-  <div class="step">
+  <!-- PASO 3 -->
+  <div class="step" id="step-3">
     <h2>Resultado estimado</h2>
     <p id="resultado"></p>
   </div>
 
-</div>
-
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estimador Solar | Colombia</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <!-- HEADER / HERO -->
-    <header>
-    <h1>Energía solar clara y sin vueltas</h1>
-    <p>
-        Estima y compara sistemas solares en Colombia
-        según tu consumo y presupuesto, en minutos.
-    </p>
-    <button>Quiero saber si me conviene</button>
-    </header>
-
-    <!-- PROBLEMA -->
-    <section>
-          <h2>¿Por qué es tan difícil elegir energía solar?</h2>
-    <p>
-        La mayoría de personas termina confundida.
-        Cada empresa ofrece precios, marcas y promesas distintas.
-        Comparar todo puede tomar semanas.
-    </p>
-    </section>
-
-    <!-- SOLUCIÓN -->
-    <section>
-        <h2>La solución</h2>
-         <h2>Una forma más simple de decidir</h2>
-    <p>
-        Aquí puedes tener una estimación clara y neutral.
-        Sin llamadas incómodas, sin presión comercial
-        y con información pensada para el contexto colombiano.
-    </p>
-    </section>
-
-    <!-- FUTURA CALCULADORA -->
-<section id="calculator">
-    <h2>Calcula tu posible sistema solar</h2>
-    <p>
-        Responde estas preguntas rápidas y obtén
-        una estimación orientativa según tu caso.
-    </p>
-
-    <!-- Paso 1 -->
-    <div class="step">
-        <h3>1. ¿Para qué quieres energía solar?</h3>
-        <div class="options">
-            <button>🏠 Hogar</button>
-            <button>🏢 Negocio</button>
-            <button>🏭 Empresa pequeña</button>
-        </div>
-    </div>
-
-    <!-- Paso 2 -->
-    <div class="step">
-        <h3>2. ¿Cuánto pagas de luz al mes?</h3>
-        <div class="options">
-            <button>Menos de $100.000</button>
-            <button>$100.000 – $200.000</button>
-            <button>$200.000 – $400.000</button>
-            <button>Más de $400.000</button>
-            <button>No lo sé</button>
-        </div>
-    </div>
-
-    <!-- Paso 3 -->
-    <div class="step">
-        <h3>3. ¿Cuál es tu presupuesto aproximado?</h3>
-        <div class="options">
-            <button>Solo quiero informarme</button>
-            <button>Menos de $5 millones</button>
-            <button>$5 – $10 millones</button>
-            <button>$10 – $20 millones</button>
-            <button>Más de $20 millones</button>
-        </div>
-    </div>
-
-    <!-- Resultado (mockup) -->
-    <div class="result">
-        <h3>Resultado estimado</h3>
-        <p>
-            Con esta información podrás conocer si la energía solar
-            es una buena opción para ti y en qué rango te encuentras.
-        </p>
-        <button>Ver mi estimación</button>
-    </div>
 </section>
 
-
-    <!-- CONFIANZA -->
-    <section>
-       <h2>¿Qué puedes esperar de esta plataforma?</h2>
-    <ul>
-        <li>Información clara y fácil de entender</li>
-        <li>Comparaciones pensadas para tu bolsillo</li>
-        <li>Ahorro de tiempo antes de tomar una decisión</li>
-    </ul>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>Proyecto independiente | Energía solar en Colombia</p>
-    </footer>
- <p>
-        Proyecto independiente enfocado en facilitar
-        el acceso a la energía solar en Colombia.
-    </p>
-    <script src="script.js"></script>  
+<script src="script.js"></script>
 </body>
 </html>
