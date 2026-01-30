@@ -114,5 +114,38 @@ button:hover {
     padding: 20px 10px;
   }
 }
+.hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hero button {
+  max-width: 260px;
+  margin-top: 20px;
+}
+
+.intro,
+.confianza {
+  max-width: 700px;
+  margin: 60px auto;
+  text-align: center;
+}
+
+.confianza ul {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.confianza li {
+  margin-bottom: 10px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 80px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
 
 
