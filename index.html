@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Estimador Solar | Colombia</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<header>
   <h1>Energía solar clara y sin vueltas</h1>
   <p>Estima sistemas solares según tu consumo.</p>
-</header>
 
-<section id="calculator">
+  <div id="calculator">
 
-  <!-- PASO 1 -->
-  <div class="step active" id="step-1">
-    <h2>¿Cuál es tu consumo mensual?</h2>
-    <input type="number" id="consumo" placeholder="Ej: 300 kWh">
-    <button id="btn-step-1">Continuar</button>
+    <!-- PASO 1 -->
+    <div class="step active" id="step-1">
+      <h2>¿Cuál es tu consumo mensual?</h2>
+      <input type="number" id="consumo" placeholder="Ej: 300 kWh" />
+      <button id="btn-step-1">Continuar</button>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="step" id="step-2">
+      <h2>¿Cuál es tu presupuesto?</h2>
+      <input type="number" id="presupuesto" placeholder="$ COP" />
+      <button id="btn-step-2">Ver resultado</button>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="step" id="step-3">
+      <h2>Resultado estimado</h2>
+      <p id="resultado"></p>
+    </div>
+
   </div>
 
-  <!-- PASO 2 -->
-  <div class="step" id="step-2">
-    <h2>¿Cuál es tu presupuesto?</h2>
-    <input type="number" id="presupuesto" placeholder="$ COP">
-    <button id="btn-step-2">Ver resultado</button>
-  </div>
-
-  <!-- PASO 3 -->
-  <div class="step" id="step-3">
-    <h2>Resultado estimado</h2>
-    <p id="resultado"></p>
-  </div>
-
-</section>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+
