@@ -1,5 +1,6 @@
 body {
   font-family: Arial, sans-serif;
+  padding: 40px;
 }
 
 .step {
@@ -8,6 +9,11 @@ body {
 
 .step.active {
   display: block;
+}
+
+input, button {
+  padding: 8px;
+  margin-top: 10px;
 }
 
 
