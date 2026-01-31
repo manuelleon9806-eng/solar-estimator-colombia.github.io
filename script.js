@@ -19,9 +19,12 @@ document.getElementById("btn-step-2").addEventListener("click", () => {
   document.getElementById("step-3").classList.add("active");
   
 document.getElementById("resultado").innerText =
-  `Con un consumo aproximado de ${consumo} kWh al mes, la energía solar puede ayudarte a reducir tu gasto en electricidad y ganar mayor estabilidad frente a futuras alzas en Colombia.`;
+  `Con un consumo aproximado de ${consumo} kWh mensuales,
+  la energía solar podría ser una buena opción para ti en Colombia.
 
-});
+  Muchas personas con consumos similares logran reducir
+  su factura y ganar mayor control sobre sus gastos de energía.`;
+
 
 
 
