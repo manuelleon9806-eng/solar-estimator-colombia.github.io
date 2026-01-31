@@ -185,9 +185,40 @@ footer {
   p {
     font-size: 0.95rem;
   }
+
+  .hero {
+    margin-bottom: 40px;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  #calculator {
+    padding: 22px;
+    border-radius: 14px;
+  }
+
+  input,
+  button {
+    font-size: 1rem;
+    padding: 14px;
+  }
+
+  section {
+    margin-top: 40px;
+  }
+
+  .confianza ul {
+    padding-left: 0;
+  }
+
+  .confianza li {
+    font-size: 0.95rem;
+  }
+
+  footer {
+    margin-top: 60px;
+    font-size: 0.85rem;
+  }
 }
-
-
-
-
-
