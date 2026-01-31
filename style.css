@@ -146,6 +146,19 @@ footer {
   font-size: 0.9rem;
   color: #6b7280;
 }
+section,
+footer,
+header {
+  display: block;
+  width: 100%;
+}
+
+footer {
+  margin-top: 100px;
+  padding: 30px 20px;
+  background: transparent;
+}
+
 
 
 
