@@ -2,6 +2,7 @@
 const step1 = document.getElementById("step-1");
 const step2 = document.getElementById("step-2");
 const step3 = document.getElementById("step-3");
+const box = document.getElementById("resultadoBox");
 
 const btnStep1 = document.getElementById("btn-step-1");
 const btnStep2 = document.getElementById("btn-step-2");
