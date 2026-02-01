@@ -51,22 +51,21 @@
       <button id="btn-step-2">Ver resultado</button>
     </div>
 <div class="step" id="step-3">
-  <h2>Resultado estimado</h2>
+  <div class="resultado-box" id="resultadoBox">
+    <h3>Tu sistema solar estimado</h3>
 
-  <div class="result-box">
-    <span class="result-label">Resultado estimado</span>
-    <div class="result-value" id="resultadoFinal">--</div>
+    <div class="resultado-numero" id="resultadoFinal"></div>
+
+    <p id="resultado"></p>
+
+    <p class="hint">
+      Este cálculo es una estimación basada en los datos que ingresaste.
+    </p>
+
+    <button id="btn-restart">Volver a calcular</button>
   </div>
-
-  <p id="resultado"></p>
-
-  <p class="hint">
-    Este cálculo es una estimación basada en los datos que ingresaste.
-  </p>
-
-  <button id="restart">Calcular de nuevo</button>
 </div>
-  </div>
+
 
   <!-- CONFIANZA -->
   <section class="confianza">
