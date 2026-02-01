@@ -13,12 +13,13 @@ const presupuestoInput = document.getElementById("presupuesto");
 const resultadoFinal = document.getElementById("resultadoFinal");
 const resultadoTexto = document.getElementById("resultado");
 const ahorroBox = document.getElementById("ahorroMensual");
+const retornoBox = document.getElementById("retornoInversion");
 
-// FUNCIÓN PARA CAMBIAR DE PASO
+// CAMBIO DE PASOS
 function showStep(stepToShow) {
-  document.querySelectorAll(".step").forEach(step => {
-    step.classList.remove("active");
-  });
+  document.querySelectorAll(".step").forEach(step =>
+    step.classList.remove("active")
+  );
   stepToShow.classList.add("active");
 }
 
@@ -26,7 +27,7 @@ function showStep(stepToShow) {
 btnStep1.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
   if (!consumo || consumo <= 0) {
-    alert("Por favor ingresa un consumo válido en kWh.");
+    alert("Ingresa un consumo válido en kWh.");
     return;
   }
   showStep(step2);
@@ -38,29 +39,40 @@ btnStep2.addEventListener("click", () => {
   const presupuesto = Number(presupuestoInput.value);
 
   if (!presupuesto || presupuesto <= 0) {
-    alert("Por favor ingresa un presupuesto válido.");
+    alert("Ingresa un presupuesto válido.");
     return;
   }
 
-  // CÁLCULOS
-  const kwRequeridos = (consumo / 120).toFixed(1);
-  const costoEstimado = kwRequeridos * 4500000;
-
+  // PARÁMETROS COLOMBIA
+  const kwhMensualPorKw = 120;
+  const costoKw = 4500000;
   const precioKwh = 800;
-  const cobertura = presupuesto >= costoEstimado ? 0.9 : 0.6;
-  const ahorroMensual = Math.round(consumo * precioKwh * cobertura);
 
-  // RESULTADOS
-  resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
+  // CÁLCULOS
+  const kwRequeridos = consumo / kwhMensualPorKw;
+  const costoEstimado = kwRequeridos * costoKw;
+
+  const cobertura = presupuesto >= costoEstimado ? 0.9 : 0.6;
+  const ahorroMensual = consumo * precioKwh * cobertura;
+  const ahorroAnual = ahorroMensual * 12;
+  const retorno = presupuesto / ahorroAnual;
+
+  // MOSTRAR RESULTADOS
+  resultadoFinal.textContent = `${kwRequeridos.toFixed(1)} kWp aprox`;
 
   resultadoTexto.textContent =
     presupuesto >= costoEstimado
-      ? "Con tu presupuesto podrías cubrir gran parte de tu consumo mensual con energía solar."
+      ? "Tu presupuesto permitiría cubrir la mayor parte de tu consumo con energía solar."
       : "Con este presupuesto podrías iniciar un sistema parcial y reducir tu factura eléctrica.";
 
-  ahorroBox.textContent = `Ahorro estimado: $${ahorroMensual.toLocaleString()} COP / mes`;
+  ahorroBox.textContent = `Ahorro estimado: $${Math.round(ahorroMensual).toLocaleString()} COP / mes`;
+  retornoBox.textContent = `Retorno estimado: ${retorno.toFixed(1)} años`;
+
   ahorroBox.classList.remove("show");
-  setTimeout(() => ahorroBox.classList.add("show"), 200);
+  retornoBox.classList.remove("show");
+
+  setTimeout(() => ahorroBox.classList.add("show"), 150);
+  setTimeout(() => retornoBox.classList.add("show"), 300);
 
   showStep(step3);
 });
@@ -70,8 +82,10 @@ btnRestart.addEventListener("click", () => {
   consumoInput.value = "";
   presupuestoInput.value = "";
   ahorroBox.classList.remove("show");
+  retornoBox.classList.remove("show");
   showStep(step1);
 });
+
 
 
 
