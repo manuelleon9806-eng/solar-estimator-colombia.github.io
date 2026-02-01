@@ -250,5 +250,35 @@ footer {
   background: #2e7d32;
   transition: width 0.4s ease;
 }
+/* RESULTADO ANIMADO */
+.result-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #f1f8f4;
+  border: 1px solid #cde5d6;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.4s ease;
+}
+
+.result-box.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.result-label {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.result-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #1b5e20;
+}
+
 
 
