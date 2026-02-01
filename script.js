@@ -1,57 +1,38 @@
-// ===============================
 // ELEMENTOS
-// ===============================
 const step1 = document.getElementById("step-1");
 const step2 = document.getElementById("step-2");
 const step3 = document.getElementById("step-3");
 
 const btnStep1 = document.getElementById("btn-step-1");
 const btnStep2 = document.getElementById("btn-step-2");
+const btnRestart = document.getElementById("btn-restart");
 
 const consumoInput = document.getElementById("consumo");
 const presupuestoInput = document.getElementById("presupuesto");
 
 const resultadoFinal = document.getElementById("resultadoFinal");
 const resultadoTexto = document.getElementById("resultado");
+const ahorroBox = document.getElementById("ahorroMensual");
 
-const box = document.getElementById("resultadoBox");
-const progressBar = document.querySelector(".progress-bar");
-
-
-// ===============================
-// FUNCIÓN CAMBIAR PASOS
-// ===============================
-function showStep(stepToShow, progress) {
+// FUNCIÓN PARA CAMBIAR DE PASO
+function showStep(stepToShow) {
   document.querySelectorAll(".step").forEach(step => {
     step.classList.remove("active");
   });
-
   stepToShow.classList.add("active");
-
-  if (progressBar) {
-    progressBar.style.width = progress + "%";
-  }
 }
 
-
-// ===============================
 // PASO 1 → PASO 2
-// ===============================
 btnStep1.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
-
   if (!consumo || consumo <= 0) {
     alert("Por favor ingresa un consumo válido en kWh.");
     return;
   }
-
-  showStep(step2, 66);
+  showStep(step2);
 });
 
-
-// ===============================
 // PASO 2 → RESULTADO
-// ===============================
 btnStep2.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
   const presupuesto = Number(presupuestoInput.value);
@@ -61,44 +42,36 @@ btnStep2.addEventListener("click", () => {
     return;
   }
 
-  // ===============================
-  // CÁLCULOS (estimación Colombia)
-  // ===============================
+  // CÁLCULOS
   const kwRequeridos = (consumo / 120).toFixed(1);
   const costoEstimado = kwRequeridos * 4500000;
 
-  // ===============================
-  // RESULTADO PRINCIPAL
-  // ===============================
+  const precioKwh = 800;
+  const cobertura = presupuesto >= costoEstimado ? 0.9 : 0.6;
+  const ahorroMensual = Math.round(consumo * precioKwh * cobertura);
+
+  // RESULTADOS
   resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
 
-  // ===============================
-  // TEXTO UX FINAL
-  // ===============================
-  if (presupuesto >= costoEstimado) {
-    resultadoTexto.textContent =
-      "Con tu presupuesto podrías cubrir gran parte de tu consumo mensual con energía solar. Es una opción viable para evaluación técnica.";
-  } else {
-    resultadoTexto.textContent =
-      "Con este presupuesto podrías iniciar un sistema parcial, reducir tu factura eléctrica y crecer el sistema más adelante.";
-  }
+  resultadoTexto.textContent =
+    presupuesto >= costoEstimado
+      ? "Con tu presupuesto podrías cubrir gran parte de tu consumo mensual con energía solar."
+      : "Con este presupuesto podrías iniciar un sistema parcial y reducir tu factura eléctrica.";
 
-  // ===============================
-  // MOSTRAR PASO 3
-  // ===============================
-  showStep(step3, 100);
+  ahorroBox.textContent = `Ahorro estimado: $${ahorroMensual.toLocaleString()} COP / mes`;
+  ahorroBox.classList.remove("show");
+  setTimeout(() => ahorroBox.classList.add("show"), 200);
 
-  // ===============================
-  // ANIMACIÓN DEL RESULTADO
-  // ===============================
-  if (box) {
-    box.classList.remove("show");
-    setTimeout(() => {
-      box.classList.add("show");
-    }, 100);
-  }
+  showStep(step3);
 });
-;
+
+// REINICIAR
+btnRestart.addEventListener("click", () => {
+  consumoInput.value = "";
+  presupuestoInput.value = "";
+  ahorroBox.classList.remove("show");
+  showStep(step1);
+});
 
 
 
