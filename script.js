@@ -1,31 +1,70 @@
-let consumo = 0;
-const progressBar = document.getElementById("progress-bar");
+// ELEMENTOS
+const step1 = document.getElementById("step-1");
+const step2 = document.getElementById("step-2");
+const step3 = document.getElementById("step-3");
 
-document.getElementById("btn-step-1").addEventListener("click", () => {
-  const input = document.getElementById("consumo").value;
+const btnStep1 = document.getElementById("btn-step-1");
+const btnStep2 = document.getElementById("btn-step-2");
 
-  if (!input || input <= 0) {
-    alert("Ingresa un consumo válido");
+const consumoInput = document.getElementById("consumo");
+const presupuestoInput = document.getElementById("presupuesto");
+
+const resultadoFinal = document.getElementById("resultadoFinal");
+const resultadoTexto = document.getElementById("resultado");
+
+// FUNCIÓN PARA CAMBIAR DE PASO
+function showStep(stepToShow) {
+  document.querySelectorAll(".step").forEach(step => {
+    step.classList.remove("active");
+  });
+  stepToShow.classList.add("active");
+}
+
+// PASO 1 → PASO 2
+btnStep1.addEventListener("click", () => {
+  const consumo = Number(consumoInput.value);
+
+  if (!consumo || consumo <= 0) {
+    alert("Por favor ingresa un consumo válido en kWh.");
     return;
   }
 
-  consumo = input;
-
-  document.getElementById("step-1").classList.remove("active");
-  document.getElementById("step-2").classList.add("active");
-
-  progressBar.style.width = "66%";
+  showStep(step2);
 });
 
-document.getElementById("btn-step-2").addEventListener("click", () => {
-  document.getElementById("step-2").classList.remove("active");
-  document.getElementById("step-3").classList.add("active");
+// PASO 2 → RESULTADO
+btnStep2.addEventListener("click", () => {
+  const consumo = Number(consumoInput.value);
+  const presupuesto = Number(presupuestoInput.value);
 
-  progressBar.style.width = "100%";
+  if (!presupuesto || presupuesto <= 0) {
+    alert("Por favor ingresa un presupuesto válido.");
+    return;
+  }
 
-  document.getElementById("resultado").innerText =
-    `Con un consumo aproximado de ${consumo} kWh mensuales,
-    la energía solar podría ser una buena opción para ti en Colombia.`;
+  // CÁLCULOS BÁSICOS (estimación)
+  const kwRequeridos = (consumo / 120).toFixed(1); // promedio Colombia
+  const costoEstimado = kwRequeridos * 4500000; // COP aprox por kWp
+
+  // TEXTO PRINCIPAL
+  resultadoFinal.textContent = `
+    ${kwRequeridos} kWp aprox
+  `;
+
+  // TEXTO EXPLICATIVO
+  if (presupuesto >= costoEstimado) {
+    resultadoTexto.textContent = `
+      Con tu presupuesto podrías cubrir gran parte de tu consumo mensual
+      con energía solar. Es un escenario viable para evaluación técnica.
+    `;
+  } else {
+    resultadoTexto.textContent = `
+      Con este presupuesto podrías iniciar un sistema parcial
+      y reducir tu factura eléctrica, aunque no cubriría el 100%.
+    `;
+  }
+
+  showStep(step3);
 });
 
 
