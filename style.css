@@ -40,11 +40,15 @@ p {
 /* PASOS */
 .step {
   display: none;
-  animation: fade 0.4s ease-in-out;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.4s ease;
 }
 
 .step.active {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ANIMACIÓN SUAVE */
