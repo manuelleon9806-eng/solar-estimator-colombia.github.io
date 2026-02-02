@@ -14,7 +14,7 @@ const resultadoTexto = document.getElementById("resultado");
 const btnWhatsapp = document.getElementById("btn-whatsapp");
 
 // 👉 TU URL DE GOOGLE SCRIPT
-const SHEET_URL = "https://script.google.com/macros/s/XXXXXXXX/exec";
+const SHEET_URL = "https://script.google.com/u/0/home/projects/1Q2TeVIS4uogrL-xSceMm9fX8tIfmIahef-6fB0DVPHW2veBe9c9xU7YX/edit";
 
 // FUNCIÓN PASOS
 function showStep(stepToShow) {
