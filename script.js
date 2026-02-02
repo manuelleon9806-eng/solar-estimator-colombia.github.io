@@ -5,31 +5,31 @@ const step3 = document.getElementById("step-3");
 
 const btnStep1 = document.getElementById("btn-step-1");
 const btnStep2 = document.getElementById("btn-step-2");
-const btnRestart = document.getElementById("btn-restart");
 
 const consumoInput = document.getElementById("consumo");
 const presupuestoInput = document.getElementById("presupuesto");
 
 const resultadoFinal = document.getElementById("resultadoFinal");
 const resultadoTexto = document.getElementById("resultado");
-const ahorroBox = document.getElementById("ahorroMensual");
-const retornoBox = document.getElementById("retornoInversion");
+const btnWhatsapp = document.getElementById("btn-whatsapp");
 
-// CAMBIO DE PASOS
+// FUNCIÓN PARA CAMBIAR DE PASO
 function showStep(stepToShow) {
-  document.querySelectorAll(".step").forEach(step =>
-    step.classList.remove("active")
-  );
+  document.querySelectorAll(".step").forEach(step => {
+    step.classList.remove("active");
+  });
   stepToShow.classList.add("active");
 }
 
 // PASO 1 → PASO 2
 btnStep1.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
+
   if (!consumo || consumo <= 0) {
-    alert("Ingresa un consumo válido en kWh.");
+    alert("Por favor ingresa un consumo válido en kWh.");
     return;
   }
+
   showStep(step2);
 });
 
@@ -39,51 +39,42 @@ btnStep2.addEventListener("click", () => {
   const presupuesto = Number(presupuestoInput.value);
 
   if (!presupuesto || presupuesto <= 0) {
-    alert("Ingresa un presupuesto válido.");
+    alert("Por favor ingresa un presupuesto válido.");
     return;
   }
 
-  // PARÁMETROS COLOMBIA
-  const kwhMensualPorKw = 120;
-  const costoKw = 4500000;
-  const precioKwh = 800;
-
   // CÁLCULOS
-  const kwRequeridos = consumo / kwhMensualPorKw;
-  const costoEstimado = kwRequeridos * costoKw;
+  const kwRequeridos = (consumo / 120).toFixed(1);
+  const costoEstimado = kwRequeridos * 4500000;
 
-  const cobertura = presupuesto >= costoEstimado ? 0.9 : 0.6;
-  const ahorroMensual = consumo * precioKwh * cobertura;
-  const ahorroAnual = ahorroMensual * 12;
-  const retorno = presupuesto / ahorroAnual;
+  resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
 
-  // MOSTRAR RESULTADOS
-  resultadoFinal.textContent = `${kwRequeridos.toFixed(1)} kWp aprox`;
+  if (presupuesto >= costoEstimado) {
+    resultadoTexto.textContent =
+      "Tu presupuesto es compatible. Podrías instalar un sistema funcional que cubra gran parte de tu consumo mensual.";
+  } else {
+    resultadoTexto.textContent =
+      "Con este presupuesto podrías iniciar un sistema parcial y reducir tu factura, ampliándolo más adelante.";
+  }
 
-  resultadoTexto.textContent =
-    presupuesto >= costoEstimado
-      ? "Tu presupuesto permitiría cubrir la mayor parte de tu consumo con energía solar."
-      : "Con este presupuesto podrías iniciar un sistema parcial y reducir tu factura eléctrica.";
+  // MENSAJE WHATSAPP
+  const mensaje = `
+Hola 👋
+Hice una estimación solar y estos son mis datos:
 
-  ahorroBox.textContent = `Ahorro estimado: $${Math.round(ahorroMensual).toLocaleString()} COP / mes`;
-  retornoBox.textContent = `Retorno estimado: ${retorno.toFixed(1)} años`;
+🔹 Consumo mensual: ${consumo} kWh
+🔹 Sistema estimado: ${kwRequeridos} kWp
+🔹 Presupuesto: $${presupuesto.toLocaleString()} COP
 
-  ahorroBox.classList.remove("show");
-  retornoBox.classList.remove("show");
+Quiero información para continuar.
+  `.trim();
 
-  setTimeout(() => ahorroBox.classList.add("show"), 150);
-  setTimeout(() => retornoBox.classList.add("show"), 300);
+  const telefono = "57XXXXXXXXXX"; // TU NÚMERO AQUÍ
+  const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+
+  btnWhatsapp.href = url;
 
   showStep(step3);
-});
-
-// REINICIAR
-btnRestart.addEventListener("click", () => {
-  consumoInput.value = "";
-  presupuestoInput.value = "";
-  ahorroBox.classList.remove("show");
-  retornoBox.classList.remove("show");
-  showStep(step1);
 });
 
 
