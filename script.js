@@ -13,7 +13,10 @@ const resultadoFinal = document.getElementById("resultadoFinal");
 const resultadoTexto = document.getElementById("resultado");
 const btnWhatsapp = document.getElementById("btn-whatsapp");
 
-// FUNCIÓN PARA CAMBIAR DE PASO
+// 👉 TU URL DE GOOGLE SCRIPT
+const SHEET_URL = "https://script.google.com/macros/s/XXXXXXXX/exec";
+
+// FUNCIÓN PASOS
 function showStep(stepToShow) {
   document.querySelectorAll(".step").forEach(step => {
     step.classList.remove("active");
@@ -24,58 +27,70 @@ function showStep(stepToShow) {
 // PASO 1 → PASO 2
 btnStep1.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
-
   if (!consumo || consumo <= 0) {
-    alert("Por favor ingresa un consumo válido en kWh.");
+    alert("Ingresa un consumo válido.");
     return;
   }
-
   showStep(step2);
 });
 
 // PASO 2 → RESULTADO
-btnStep2.addEventListener("click", () => {
+btnStep2.addEventListener("click", async () => {
   const consumo = Number(consumoInput.value);
   const presupuesto = Number(presupuestoInput.value);
 
   if (!presupuesto || presupuesto <= 0) {
-    alert("Por favor ingresa un presupuesto válido.");
+    alert("Ingresa un presupuesto válido.");
     return;
   }
 
-  // CÁLCULOS
-  const kwRequeridos = (consumo / 120).toFixed(1);
-  const costoEstimado = kwRequeridos * 4500000;
+  const kwp = (consumo / 120).toFixed(1);
+  const costoEstimado = kwp * 4500000;
 
-  resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
+  resultadoFinal.textContent = `${kwp} kWp aprox`;
+
+  let escenario = "";
 
   if (presupuesto >= costoEstimado) {
+    escenario = "Viable";
     resultadoTexto.textContent =
-      "Tu presupuesto es compatible. Podrías instalar un sistema funcional que cubra gran parte de tu consumo mensual.";
+      "Tu presupuesto es compatible con un sistema solar funcional.";
   } else {
+    escenario = "Parcial";
     resultadoTexto.textContent =
-      "Con este presupuesto podrías iniciar un sistema parcial y reducir tu factura, ampliándolo más adelante.";
+      "Podrías iniciar con un sistema parcial y ampliarlo después.";
   }
 
-  // MENSAJE WHATSAPP
+  // 📥 GUARDAR LEAD
+  fetch(SHEET_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      consumo,
+      presupuesto,
+      kwp,
+      escenario
+    }),
+  });
+
+  // 📲 WHATSAPP
   const mensaje = `
 Hola 👋
-Hice una estimación solar y estos son mis datos:
+Hice una estimación solar:
 
-🔹 Consumo mensual: ${consumo} kWh
-🔹 Sistema estimado: ${kwRequeridos} kWp
+🔹 Consumo: ${consumo} kWh
+🔹 Sistema: ${kwp} kWp
 🔹 Presupuesto: $${presupuesto.toLocaleString()} COP
 
-Quiero información para continuar.
+Quiero continuar con un instalador.
   `.trim();
 
-  const telefono = "573227228786"; // TU NÚMERO AQUÍ
-  const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-
-  btnWhatsapp.href = url;
+  const telefono = "573227228786"; // TU NÚMERO
+  btnWhatsapp.href =
+    `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
 
   showStep(step3);
 });
+
 
 
 
