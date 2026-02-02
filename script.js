@@ -69,7 +69,7 @@ Hice una estimación solar y estos son mis datos:
 Quiero información para continuar.
   `.trim();
 
-  const telefono = "57XXXXXXXXXX"; // TU NÚMERO AQUÍ
+  const telefono = "573227228786"; // TU NÚMERO AQUÍ
   const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
 
   btnWhatsapp.href = url;
