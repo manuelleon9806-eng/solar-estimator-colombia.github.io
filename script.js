@@ -1,4 +1,6 @@
+// =====================
 // ELEMENTOS
+// =====================
 const step1 = document.getElementById("step-1");
 const step2 = document.getElementById("step-2");
 const step3 = document.getElementById("step-3");
@@ -9,14 +11,15 @@ const btnStep2 = document.getElementById("btn-step-2");
 const consumoInput = document.getElementById("consumo");
 const presupuestoInput = document.getElementById("presupuesto");
 
-const resultadoFinal = document.getElementById("resultadoFinal");
-const resultadoTexto = document.getElementById("resultado");
-const btnWhatsapp = document.getElementById("btn-whatsapp");
+// =====================
+// ENDPOINT GOOGLE SCRIPT
+// =====================
+const ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbxhqP230ZUXOYPtWmD2viPM6m3VAFZWApAX7ilA_ILvx6-7D-9OU1feMmMHGG09QXZ9/exec";
 
-// 👉 TU URL DE GOOGLE SCRIPT
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyYeVxskWAIvXpLw75VT-GvM_qT8ukkOXsfn5zpOvhaFa_Q3TmTSVVzTqpREsSVtEt1/exec";
-
-// FUNCIÓN PASOS
+// =====================
+// FUNCIONES
+// =====================
 function showStep(stepToShow) {
   document.querySelectorAll(".step").forEach(step => {
     step.classList.remove("active");
@@ -24,7 +27,22 @@ function showStep(stepToShow) {
   stepToShow.classList.add("active");
 }
 
+function enviarLead(consumo, presupuesto, kwp, escenario) {
+  fetch(ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      consumo,
+      presupuesto,
+      kwp,
+      escenario,
+    }),
+  }).catch(err => console.error("Error guardando lead", err));
+}
+
+// =====================
 // PASO 1 → PASO 2
+// =====================
 btnStep1.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
   if (!consumo || consumo <= 0) {
@@ -34,8 +52,10 @@ btnStep1.addEventListener("click", () => {
   showStep(step2);
 });
 
+// =====================
 // PASO 2 → RESULTADO
-btnStep2.addEventListener("click", async () => {
+// =====================
+btnStep2.addEventListener("click", () => {
   const consumo = Number(consumoInput.value);
   const presupuesto = Number(presupuestoInput.value);
 
@@ -47,53 +67,11 @@ btnStep2.addEventListener("click", async () => {
   const kwp = (consumo / 120).toFixed(1);
   const costoEstimado = kwp * 4500000;
 
-  resultadoFinal.textContent = `${kwp} kWp aprox`;
+  const escenario =
+    presupuesto >= costoEstimado ? "Viable" : "Parcial";
 
-  let escenario = "";
+  // ✅ GUARDAR LEAD
+  enviarLead(consumo, presupuesto, kwp, escenario);
 
-  if (presupuesto >= costoEstimado) {
-    escenario = "Viable";
-    resultadoTexto.textContent =
-      "Tu presupuesto es compatible con un sistema solar funcional.";
-  } else {
-    escenario = "Parcial";
-    resultadoTexto.textContent =
-      "Podrías iniciar con un sistema parcial y ampliarlo después.";
-  }
-
-  // 📥 GUARDAR LEAD
-  fetch(SHEET_URL, {
-    method: "POST",
-    body: JSON.stringify({
-      consumo,
-      presupuesto,
-      kwp,
-      escenario
-    }),
-  });
-
-  // 📲 WHATSAPP
-  const mensaje = `
-Hola 👋
-Hice una estimación solar:
-
-🔹 Consumo: ${consumo} kWh
-🔹 Sistema: ${kwp} kWp
-🔹 Presupuesto: $${presupuesto.toLocaleString()} COP
-
-Quiero continuar con un instalador.
-  `.trim();
-
-  const telefono = "573227228786"; // TU NÚMERO
-  btnWhatsapp.href =
-    `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-
-  showStep(step3);
-});
-
-
-
-
-
-
-
+  // ✅ WHATSAPP
+  const telefono = "5732272287
