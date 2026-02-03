@@ -111,7 +111,7 @@ if (leadForm) {
       `Quiero continuar con un instalador.`
     );
 
-    const telefonoDestino = "57TU_NUMERO_AQUI"; // 👈 CAMBIA ESTO
+    const telefonoDestino = "3227228786"; // 👈 CAMBIA ESTO
     window.open(`https://wa.me/${telefonoDestino}?text=${mensaje}`, "_blank");
   });
 }
