@@ -144,7 +144,7 @@ if (btnRestart) {
 // ===============================
 updateProgress("33%");
 const ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbywRyr6wd5hlyog7sbokwmunhcatmovfuoXS2mu5oHMg7rvx4P71E_xNKV7AV0xQPXX/exec";
+  "https://script.google.com/macros/s/AKfycbxFeNS10fitj2YQDVTcFih5NJ67z5MVf0u_zQ8Zy7Vsz3p2IZO_si98Z4o-TsQ089jQ/exec";
 function guardarLead(data) {
   fetch(ENDPOINT, {
     method: "POST",
