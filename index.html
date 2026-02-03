@@ -1,115 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Estimador Solar | Colombia</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estimador Solar Colombia</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  
-<div class="container">
-  <!-- HERO -->
-  <header class="hero">
-    <h1>Energía solar clara y sin vueltas</h1>
-    <p>  Descubre en minutos si la energía solar es viable para ti,
-  sin registros y sin llamadas incómodas.</p>
-  </header>
+  <div class="container">
+    <header class="hero">
+      <h1>Estimador Solar Colombia</h1>
+      <p>Energía solar clara y sin vueltas</p>
+    </header>
 
-  <!-- INTRO -->
-  <section class="intro">
-    <p>
-      Esta herramienta te da una estimación clara y orientativa
-      para entender si la energía solar puede ser una buena opción
-      según tu consumo mensual.
-    </p>
-  </section>
+    <div id="calculator">
+      <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
 
-  <!-- CALCULADORA -->
-  <div class="progress">
-  <div class="progress-bar" id="progress-bar"></div>
-</div>
-  <div id="calculator">
-<p class="hint">
-  Solo 2 preguntas rápidas · 1 minuto ⏱️
-</p>
-    <div class="step active" id="step-1">
-      <h2>¿Cuál es tu consumo mensual?</h2>
-      <input
-  type="number"
-  id="consumo"
-  placeholder="Ej: 250 · 300 · 450 kWh"
-  inputmode="numeric"
-/>
-      <button id="btn-step-1">Ver estimación</button>
+      <!-- Paso 1 -->
+      <div class="step active" id="step-1">
+        <h2>¿Cuál es tu consumo mensual?</h2>
+        <input type="number" id="consumo" placeholder="Ejemplo: 450 kWh" min="1">
+        <button id="btn-step-1">Ver estimación</button>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="step" id="step-2">
+        <h2>¿Cuál es tu presupuesto?</h2>
+        <input type="number" id="presupuesto" placeholder="Ejemplo: 8000000" min="1">
+        <button id="btn-step-2">Calcular mi sistema</button>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="step" id="step-3">
+        <h2>Tu estimación está lista ⚡</h2>
+        <div class="result-box">
+          <span class="result-label">Sistema recomendado</span>
+          <div class="result-value" id="resultadoFinal">— kWp</div>
+          <p id="resultado"></p>
+          <div class="ahorro" id="ahorro"></div>
+        </div>
+
+        <form id="lead-form">
+          <input type="text" id="nombre" placeholder="Tu nombre" required>
+          <input type="tel" id="telefono" placeholder="Tu WhatsApp" required>
+          <button type="submit" class="btn-whatsapp">
+            Continuar por WhatsApp
+          </button>
+        </form>
+
+        <button id="btn-restart" style="margin-top:12px; background:#6b7280;">Hacer otra consulta</button>
+      </div>
     </div>
 
-    <div class="step" id="step-2">
-      <h2>¿Cuál es tu presupuesto?</h2>
-      <input type="number" id="presupuesto" placeholder="$ COP" />
-      <button id="btn-step-2">Ver resultado</button>
-    </div>
-<div class="step" id="step-3">
-  <h2>Tu estimación está lista ⚡</h2>
-
-  <div class="result-box">
-    <p><strong>Sistema estimado:</strong></p>
-    <div class="result-value" id="resultadoFinal"></div>
-    <p id="resultado"></p>
+    <section class="confianza">
+      <h2>¿Qué puedes esperar?</h2>
+      <ul>
+        <li>✓ Información clara y sin presión</li>
+        <li>✓ Estimaciones reales para Colombia</li>
+        <li>✓ Primer filtro antes de hablar con instaladores</li>
+      </ul>
+    </section>
   </div>
-
-  <h3>Déjanos tus datos para contactarte con un instalador</h3>
-    <input
-      type="text"
-      id="nombre"
-      placeholder="Nombre completo"
-      required
-    />
-
-    <input
-      type="tel"
-      id="telefono"
-      placeholder="WhatsApp (ej: 3001234567)"
-      required
-    />
-
-    <button type="submit" class="btn-primary">
-      Continuar por WhatsApp
-    </button>
-  </form>
-
-  <p class="hint">
-    Un instalador certificado te contactará sin costo.
-  </p>
-</div>
-
-
-  <p class="hint">
-    Este cálculo es una estimación basada en los datos que ingresaste.
-  </p>
-
-  <!-- CONFIANZA -->
-  <section class="confianza">
-    <h2>¿Qué puedes esperar?</h2>
-    <ul>
-      <li>Información clara y sin presión comercial</li>
-      <li>Estimaciones pensadas para Colombia</li>
-      <li>Un primer filtro antes de hablar con instaladores</li>
-    </ul>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    Proyecto independiente · Energía solar en Colombia
-  </footer>
 
   <script src="script.js"></script>
-  </div>
-  
 </body>
-
 </html>
-
 
 
