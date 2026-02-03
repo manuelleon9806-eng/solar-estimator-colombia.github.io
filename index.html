@@ -51,32 +51,41 @@
       <button id="btn-step-2">Ver resultado</button>
     </div>
 <div class="step" id="step-3">
-  <h2>Resultado estimado</h2>
+  <h2>Tu estimación está lista ⚡</h2>
 
-  <div class="result-box" id="resultadoBox">
-    <h3>Tu sistema solar estimado</h3>
-
-    <div class="resultado-numero" id="resultadoFinal"></div>
-
-    <div class="ahorro" id="ahorroMensual"></div>
-
-    <div class="retorno" id="retornoInversion"></div>
-
+  <div class="result-box">
+    <p><strong>Sistema estimado:</strong></p>
+    <div class="result-value" id="resultadoFinal"></div>
     <p id="resultado"></p>
-    <a
-  id="btn-whatsapp"
-  href="#"
-  target="_blank"
-  class="btn-whatsapp"
->
-  📲 Quiero hablar con un instalador solar
-</a>
-
-<p class="hint">
-  Respuesta sin compromiso · Gratis
-</p>
-
   </div>
+
+  <h3>Déjanos tus datos para contactarte con un instalador</h3>
+
+  <form id="lead-form">
+    <input
+      type="text"
+      id="nombre"
+      placeholder="Nombre completo"
+      required
+    />
+
+    <input
+      type="tel"
+      id="telefono"
+      placeholder="WhatsApp (ej: 3001234567)"
+      required
+    />
+
+    <button type="submit" class="btn-primary">
+      Continuar por WhatsApp
+    </button>
+  </form>
+
+  <p class="hint">
+    Un instalador certificado te contactará sin costo.
+  </p>
+</div>
+
 
   <p class="hint">
     Este cálculo es una estimación basada en los datos que ingresaste.
