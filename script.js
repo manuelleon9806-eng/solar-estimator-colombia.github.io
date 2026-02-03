@@ -119,7 +119,7 @@ guardarLead({
   escenario: presupuesto >= costoEstimado ? "Viable" : "Parcial"
 });
 
-    const telefonoDestino = "3227228786"; // 👈 CAMBIA ESTO
+    const telefonoDestino = "+573227228786"; // 👈 CAMBIA ESTO
     window.open(`https://wa.me/${telefonoDestino}?text=${mensaje}`, "_blank");
   });
 }
