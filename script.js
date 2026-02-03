@@ -1,77 +1,104 @@
-// =====================
-// ELEMENTOS
-// =====================
-const step1 = document.getElementById("step-1");
-const step2 = document.getElementById("step-2");
-const step3 = document.getElementById("step-3");
+// STEPS
+const steps = document.querySelectorAll(".step");
 
-const btnStep1 = document.getElementById("btn-step-1");
-const btnStep2 = document.getElementById("btn-step-2");
-
+// INPUTS
 const consumoInput = document.getElementById("consumo");
 const presupuestoInput = document.getElementById("presupuesto");
+const nombreInput = document.getElementById("nombre");
+const telefonoInput = document.getElementById("telefono");
 
-// =====================
-// ENDPOINT GOOGLE SCRIPT
-// =====================
+// RESULTADOS
+const resultadoFinal = document.getElementById("resultadoFinal");
+const resultadoTexto = document.getElementById("resultado");
+
+// BOTONES
+const btnStep1 = document.getElementById("btn-step-1");
+const btnStep2 = document.getElementById("btn-step-2");
+const leadForm = document.getElementById("lead-form");
+
+// ENDPOINT
 const ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbxhqP230ZUXOYPtWmD2viPM6m3VAFZWApAX7ilA_ILvx6-7D-9OU1feMmMHGG09QXZ9/exec";
+  "https://script.google.com/macros/s/AKfycbxRCtvEyqmxfZBFV13b9ByfNa6OOT2R7BXc6AbFqZTfknPMDURfeOJfqYGDyT4_lRmh/exec";
 
-// =====================
-// FUNCIONES
-// =====================
-function showStep(stepToShow) {
-  document.querySelectorAll(".step").forEach(step => {
-    step.classList.remove("active");
-  });
-  stepToShow.classList.add("active");
+function showStep(stepId) {
+  steps.forEach(step => step.classList.remove("active"));
+  document.getElementById(stepId).classList.add("active");
 }
 
-function enviarLead(consumo, presupuesto, kwp, escenario) {
+// PASO 1
+btnStep1.addEventListener("click", () => {
+  if (!consumoInput.value || consumoInput.value <= 0) {
+    alert("Ingresa un consumo válido");
+    return;
+  }
+  showStep("step-2");
+});
+
+// PASO 2
+btnStep2.addEventListener("click", () => {
+  if (!presupuestoInput.value || presupuestoInput.value <= 0) {
+    alert("Ingresa un presupuesto válido");
+    return;
+  }
+
+  const consumo = Number(consumoInput.value);
+  const presupuesto = Number(presupuestoInput.value);
+
+  const kwp = (consumo / 120).toFixed(1);
+  const costo = kwp * 4500000;
+
+  const escenario =
+    presupuesto >= costo ? "Viable" : "Parcial";
+
+  resultadoFinal.textContent = `${kwp} kWp`;
+  resultadoTexto.textContent = `Escenario: ${escenario}`;
+
+  showStep("step-3");
+});
+
+// FORMULARIO FINAL
+leadForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const consumo = Number(consumoInput.value);
+  const presupuesto = Number(presupuestoInput.value);
+  const kwp = (consumo / 120).toFixed(1);
+  const escenario =
+    presupuesto >= kwp * 4500000 ? "Viable" : "Parcial";
+
+  const nombre = nombreInput.value.trim();
+  const telefono = telefonoInput.value.trim();
+
   fetch(ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      nombre,
+      telefono,
       consumo,
       presupuesto,
       kwp,
-      escenario,
+      escenario
     }),
-  }).catch(err => console.error("Error guardando lead", err));
-}
+  });
 
-// =====================
-// PASO 1 → PASO 2
-// =====================
-btnStep1.addEventListener("click", () => {
-  const consumo = Number(consumoInput.value);
-  if (!consumo || consumo <= 0) {
-    alert("Ingresa un consumo válido.");
-    return;
-  }
-  showStep(step2);
+  const mensaje = encodeURIComponent(
+`Hola 👋 soy ${nombre}
+
+Hice una estimación solar:
+
+⚡ Consumo: ${consumo} kWh
+🔋 Sistema: ${kwp} kWp
+💰 Presupuesto: $${presupuesto.toLocaleString()} COP
+📊 Escenario: ${escenario}
+
+Quiero continuar con un instalador.`
+  );
+
+  window.open(
+    `https://wa.me/57${telefono}?text=${mensaje}`,
+    "_blank"
+  );
 });
 
-// =====================
-// PASO 2 → RESULTADO
-// =====================
-btnStep2.addEventListener("click", () => {
-  const consumo = Number(consumoInput.value);
-  const presupuesto = Number(presupuestoInput.value);
 
-  if (!presupuesto || presupuesto <= 0) {
-    alert("Ingresa un presupuesto válido.");
-    return;
-  }
-
-  const kwp = (consumo / 120).toFixed(1);
-  const costoEstimado = kwp * 4500000;
-
-  const escenario =
-    presupuesto >= costoEstimado ? "Viable" : "Parcial";
-
-  // ✅ GUARDAR LEAD
-  enviarLead(consumo, presupuesto, kwp, escenario);
-
-  // ✅ WHATSAPP
-  const telefono = "5732272287
