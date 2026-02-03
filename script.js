@@ -100,5 +100,24 @@ Quiero continuar con un instalador.`
     "_blank"
   );
 });
+// 🔁 REINICIAR CALCULADORA
+const btnRestart = document.getElementById("btn-restart");
+
+if (btnRestart) {
+  btnRestart.addEventListener("click", () => {
+    // limpiar inputs
+    document.getElementById("consumo").value = "";
+    document.getElementById("presupuesto").value = "";
+
+    // volver al paso 1
+    showStep(step1);
+
+    // reiniciar barra de progreso
+    const progressBar = document.getElementById("progress-bar");
+    if (progressBar) {
+      progressBar.style.width = "33%";
+    }
+  });
+}
 
 
