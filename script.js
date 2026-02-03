@@ -67,7 +67,7 @@ btnStep2.addEventListener("click", () => {
 
   // CÁLCULO SIMPLE (COLOMBIA)
   const kwRequeridos = (consumo / 120).toFixed(1); // promedio mensual
-  const costoEstimado = kwRequeridos * 4500000;
+ costoEstimado = kwRequeridos * 4500000;
 
   resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
 
