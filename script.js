@@ -110,6 +110,14 @@ if (leadForm) {
       `⚡ Sistema estimado: ${sistema}\n\n` +
       `Quiero continuar con un instalador.`
     );
+guardarLead({
+  nombre,
+  telefono,
+  consumo,
+  presupuesto,
+  sistema,
+  escenario: presupuesto >= costoEstimado ? "Viable" : "Parcial"
+});
 
     const telefonoDestino = "3227228786"; // 👈 CAMBIA ESTO
     window.open(`https://wa.me/${telefonoDestino}?text=${mensaje}`, "_blank");
@@ -135,5 +143,24 @@ if (btnRestart) {
 // INIT
 // ===============================
 updateProgress("33%");
+const ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbwThTInx6__MNRr22B694Xvy5fCb15etaqoMJp5hvZKk8FHDoB0oUEFPxQK7gABsfEb/exec";
+function guardarLead(data) {
+  fetch(ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+  .then(res => res.json())
+  .then(() => {
+    console.log("Lead guardado correctamente");
+  })
+  .catch(err => {
+    console.error("Error guardando lead", err);
+  });
+}
+
 
 
