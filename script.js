@@ -1,123 +1,139 @@
-// STEPS
-const steps = document.querySelectorAll(".step");
+// ===============================
+// ELEMENTOS
+// ===============================
+const step1 = document.getElementById("step-1");
+const step2 = document.getElementById("step-2");
+const step3 = document.getElementById("step-3");
 
-// INPUTS
+const btnStep1 = document.getElementById("btn-step-1");
+const btnStep2 = document.getElementById("btn-step-2");
+const btnRestart = document.getElementById("btn-restart");
+
 const consumoInput = document.getElementById("consumo");
 const presupuestoInput = document.getElementById("presupuesto");
-const nombreInput = document.getElementById("nombre");
-const telefonoInput = document.getElementById("telefono");
 
-// RESULTADOS
 const resultadoFinal = document.getElementById("resultadoFinal");
 const resultadoTexto = document.getElementById("resultado");
 
-// BOTONES
-const btnStep1 = document.getElementById("btn-step-1");
-const btnStep2 = document.getElementById("btn-step-2");
+const progressBar = document.getElementById("progress-bar");
+
+// FORM LEAD
 const leadForm = document.getElementById("lead-form");
+const nombreInput = document.getElementById("nombre");
+const telefonoInput = document.getElementById("telefono");
 
-// ENDPOINT
-const ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbxRCtvEyqmxfZBFV13b9ByfNa6OOT2R7BXc6AbFqZTfknPMDURfeOJfqYGDyT4_lRmh/exec";
-
-function showStep(stepId) {
-  steps.forEach(step => step.classList.remove("active"));
-  document.getElementById(stepId).classList.add("active");
+// ===============================
+// FUNCIONES
+// ===============================
+function showStep(stepToShow) {
+  document.querySelectorAll(".step").forEach(step => {
+    step.classList.remove("active");
+  });
+  stepToShow.classList.add("active");
 }
 
-// PASO 1
+function updateProgress(percent) {
+  if (progressBar) {
+    progressBar.style.width = percent;
+  }
+}
+
+// ===============================
+// PASO 1 → PASO 2
+// ===============================
 btnStep1.addEventListener("click", () => {
-  if (!consumoInput.value || consumoInput.value <= 0) {
-    alert("Ingresa un consumo válido");
+  const consumo = Number(consumoInput.value);
+
+  if (!consumo || consumo <= 0) {
+    alert("Ingresa un consumo válido en kWh.");
     return;
   }
-  showStep("step-2");
+
+  showStep(step2);
+  updateProgress("66%");
 });
 
-// PASO 2
+// ===============================
+// PASO 2 → PASO 3 (RESULTADO)
+// ===============================
 btnStep2.addEventListener("click", () => {
-  if (!presupuestoInput.value || presupuestoInput.value <= 0) {
-    alert("Ingresa un presupuesto válido");
+  const consumo = Number(consumoInput.value);
+  const presupuesto = Number(presupuestoInput.value);
+
+  if (!presupuesto || presupuesto <= 0) {
+    alert("Ingresa un presupuesto válido.");
     return;
   }
 
-  const consumo = Number(consumoInput.value);
-  const presupuesto = Number(presupuestoInput.value);
+  // CÁLCULO SIMPLE (COLOMBIA)
+  const kwRequeridos = (consumo / 120).toFixed(1); // promedio mensual
+  const costoEstimado = kwRequeridos * 4500000;
 
-  const kwp = (consumo / 120).toFixed(1);
-  const costo = kwp * 4500000;
+  resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
 
-  const escenario =
-    presupuesto >= costo ? "Viable" : "Parcial";
+  if (presupuesto >= costoEstimado) {
+    resultadoTexto.textContent =
+      "Con este presupuesto podrías cubrir gran parte de tu consumo mensual con energía solar. Es un escenario viable para evaluación técnica.";
+  } else {
+    resultadoTexto.textContent =
+      "Con este presupuesto podrías iniciar un sistema parcial que reduzca tu factura eléctrica.";
+  }
 
-  resultadoFinal.textContent = `${kwp} kWp`;
-  resultadoTexto.textContent = `Escenario: ${escenario}`;
-
-  showStep("step-3");
+  showStep(step3);
+  updateProgress("100%");
 });
 
-// FORMULARIO FINAL
-leadForm.addEventListener("submit", e => {
-  e.preventDefault();
+// ===============================
+// FORMULARIO → WHATSAPP
+// ===============================
+if (leadForm) {
+  leadForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  const consumo = Number(consumoInput.value);
-  const presupuesto = Number(presupuestoInput.value);
-  const kwp = (consumo / 120).toFixed(1);
-  const escenario =
-    presupuesto >= kwp * 4500000 ? "Viable" : "Parcial";
+    const nombre = nombreInput.value.trim();
+    const telefono = telefonoInput.value.trim();
+    const consumo = consumoInput.value;
+    const presupuesto = presupuestoInput.value;
+    const sistema = resultadoFinal.textContent;
 
-  const nombre = nombreInput.value.trim();
-  const telefono = telefonoInput.value.trim();
+    if (!nombre || !telefono) {
+      alert("Completa tus datos para continuar.");
+      return;
+    }
 
-  fetch(ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      nombre,
-      telefono,
-      consumo,
-      presupuesto,
-      kwp,
-      escenario
-    }),
+    const mensaje = encodeURIComponent(
+      `Hola 👋\n\nHice una estimación solar:\n\n` +
+      `👤 Nombre: ${nombre}\n` +
+      `📱 Teléfono: ${telefono}\n` +
+      `🔋 Consumo: ${consumo} kWh\n` +
+      `💰 Presupuesto: $${presupuesto} COP\n` +
+      `⚡ Sistema estimado: ${sistema}\n\n` +
+      `Quiero continuar con un instalador.`
+    );
+
+    const telefonoDestino = "57TU_NUMERO_AQUI"; // 👈 CAMBIA ESTO
+    window.open(`https://wa.me/${telefonoDestino}?text=${mensaje}`, "_blank");
   });
+}
 
-  const mensaje = encodeURIComponent(
-`Hola 👋 soy ${nombre}
-
-Hice una estimación solar:
-
-⚡ Consumo: ${consumo} kWh
-🔋 Sistema: ${kwp} kWp
-💰 Presupuesto: $${presupuesto.toLocaleString()} COP
-📊 Escenario: ${escenario}
-
-Quiero continuar con un instalador.`
-  );
-
-  window.open(
-    `https://wa.me/57${telefono}?text=${mensaje}`,
-    "_blank"
-  );
-});
-// 🔁 REINICIAR CALCULADORA
-const btnRestart = document.getElementById("btn-restart");
-
+// ===============================
+// REINICIAR CALCULADORA
+// ===============================
 if (btnRestart) {
   btnRestart.addEventListener("click", () => {
-    // limpiar inputs
-    document.getElementById("consumo").value = "";
-    document.getElementById("presupuesto").value = "";
+    consumoInput.value = "";
+    presupuestoInput.value = "";
+    if (nombreInput) nombreInput.value = "";
+    if (telefonoInput) telefonoInput.value = "";
 
-    // volver al paso 1
     showStep(step1);
-
-    // reiniciar barra de progreso
-    const progressBar = document.getElementById("progress-bar");
-    if (progressBar) {
-      progressBar.style.width = "33%";
-    }
+    updateProgress("33%");
   });
 }
+
+// ===============================
+// INIT
+// ===============================
+updateProgress("33%");
 
 
