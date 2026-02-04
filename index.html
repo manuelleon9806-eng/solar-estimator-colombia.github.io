@@ -1,79 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Estimador Solar Colombia</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="container">
+
     <header class="hero">
       <h1>Estimador Solar Colombia</h1>
       <p>Energía solar clara y sin vueltas</p>
     </header>
 
-    <div id="calculator">
+    <div class="calculator">
+
       <div class="progress">
         <div class="progress-bar" id="progress-bar"></div>
       </div>
 
-      <!-- Paso 1 -->
+      <!-- PASO 1 -->
       <div class="step active">
         <h2>¿Cuál es tu consumo mensual?</h2>
-        <input type="number" id="consumo" placeholder="Ejemplo: 450 kWh" min="1">
-        <button id="btn-step-1" type="button">Ver estimación</button>
+        <input type="number" id="consumo" placeholder="Ej: 450 kWh" min="1">
+        <button id="btn-step-1">Ver estimación</button>
       </div>
 
-      <!-- Paso 2 -->
+      <!-- PASO 2 -->
       <div class="step">
-        <h2>¿Cuál es tu presupuesto?</h2>
-        <input type="number" id="presupuesto" placeholder="Ejemplo: 8000000" min="1">
-        <button id="btn-step-2" type="button">Calcular mi sistema</button>
+        <h2>¿Cuál es tu presupuesto aproximado?</h2>
+        <input type="number" id="presupuesto" placeholder="Ej: 8.000.000 COP" min="1">
+        <button id="btn-step-2">Calcular mi sistema</button>
       </div>
 
-      <!-- Paso 3 -->
+      <!-- PASO 3 -->
       <div class="step">
         <h2>Tu estimación está lista ⚡</h2>
 
-        <p class="hint">
-          No spam · No llamadas automáticas · Solo contacto humano
-        </p>
-
         <div class="result-box">
-          <p class="result-highlight">
-            Con un sistema solar de aproximadamente:
-          </p>
-
+          <p>Sistema solar recomendado:</p>
           <div class="result-value" id="resultadoFinal"></div>
-
-          <p id="resultado"></p>
+          <p id="resultadoTexto"></p>
         </div>
 
-        <form id="lead-form">
-          <input type="text" id="nombre" placeholder="Tu nombre" required>
-          <input type="tel" id="telefono" placeholder="Tu WhatsApp" required>
-          <button type="submit" class="btn-whatsapp">
-            ⚡ Quiero mi evaluación solar gratuita
-          </button>
-        </form>
+        <a id="btn-whatsapp" class="btn-whatsapp" target="_blank">
+          Continuar por WhatsApp
+        </a>
 
-        <button id="btn-restart" type="button"
-          style="margin-top:12px; background:#6b7280;">
+        <button id="btn-restart" class="btn-secondary">
           Hacer otra consulta
         </button>
       </div>
+
     </div>
 
     <section class="confianza">
-      <h2>¿Qué puedes esperar?</h2>
+      <h3>¿Qué puedes esperar?</h3>
       <ul>
-        <li>✓ Información clara y sin presión</li>
-        <li>✓ Estimaciones reales para Colombia</li>
-        <li>✓ Primer filtro antes de hablar con instaladores</li>
+        <li>✔ Información clara y sin presión</li>
+        <li>✔ Estimaciones reales para Colombia</li>
+        <li>✔ Contacto humano, sin spam</li>
       </ul>
     </section>
+
+    <footer>
+      Proyecto independiente · Energía Solar Colombia
+    </footer>
+
   </div>
 
   <script src="script.js"></script>
