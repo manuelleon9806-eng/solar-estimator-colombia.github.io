@@ -99,17 +99,4 @@ btnRestart.addEventListener('click', () => {
   document.getElementById('telefono').value = '';
   resultado.textContent = '';
   resultadoFinal.textContent = 'Calculando...';
-});
-function doPost(e) {
-  var sheet = SpreadsheetApp.openById('https://docs.google.com/spreadsheets/d/1p2xJi68-jRrcuwPgcsGcf_9fEgUYrNU44-uzZSqQhYE/edit?gid=0#gid=0').getSheetByName('Leads Solar');
-  var data = JSON.parse(e.postData.contents);
-  sheet.appendRow([
-    new Date(),
-    data.nombre,
-    data.telefono,
-    data.consumo,
-    data.presupuesto,
-    data.costoEstimado
-  ]);
-  return ContentService.createTextOutput('OK').setMimeType(ContentService.MimeType.TEXT);
-}
+
