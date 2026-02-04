@@ -99,4 +99,4 @@ btnRestart.addEventListener('click', () => {
   document.getElementById('telefono').value = '';
   resultado.textContent = '';
   resultadoFinal.textContent = 'Calculando...';
-
+});
