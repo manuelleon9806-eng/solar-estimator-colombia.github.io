@@ -1,39 +1,53 @@
-let currentStep = 0;
-const steps = document.querySelectorAll(".step");
-const progressBar = document.getElementById("progressBar");
-
-function showStep(index) {
-  steps.forEach(step => step.classList.remove("active"));
-  steps[index].classList.add("active");
-  progressBar.style.width = ((index) / (steps.length - 1)) * 100 + "%";
-}
+let currentStep = 1;
+const totalSteps = 4;
 
 function nextStep() {
-  if (currentStep < steps.length - 1) {
-    currentStep++;
-    showStep(currentStep);
-  }
+  if (currentStep === 1 && !document.getElementById("city").value) return;
+  if (currentStep === 2 && !document.getElementById("property").value) return;
+
+  document.getElementById(`step${currentStep}`).classList.remove("active");
+  currentStep++;
+  document.getElementById(`step${currentStep}`).classList.add("active");
+
+  updateProgress();
 }
 
-function enviarWhatsApp() {
-  const ciudad = document.getElementById("ciudad").value;
-  const tipo = document.getElementById("tipo").value;
-  const consumo = document.getElementById("consumo").value;
+function calculate() {
+  const city = document.getElementById("city").value;
+  const property = document.getElementById("property").value;
+  const consumption = Number(document.getElementById("consumption").value);
 
-  const mensaje = `
-Hola 👋
-Quiero una estimación solar ☀️
+  if (!consumption || consumption <= 0) return;
 
-📍 Ciudad: ${ciudad}
-🏠 Inmueble: ${tipo}
-⚡ Consumo mensual: ${consumo} kWh
+  document.getElementById("step3").classList.remove("active");
+  document.getElementById("result").classList.add("active");
+  updateProgress();
 
-Quedo atento, gracias.
-`;
+  // Cálculo simple realista Colombia
+  const systemSize = (consumption / 120).toFixed(1); // kWp
+  const panels = Math.ceil(systemSize / 0.55);
+  const price = Math.round(systemSize * 4200000);
 
-  const phone = "573227228786";
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
+  document.getElementById("output").innerHTML = `
+    <p><strong>Ciudad:</strong> ${city}</p>
+    <p><strong>Inmueble:</strong> ${property}</p>
+    <p><strong>Sistema estimado:</strong> ${systemSize} kWp</p>
+    <p><strong>Paneles:</strong> ${panels}</p>
+    <p><strong>Inversión aproximada:</strong> $${price.toLocaleString("es-CO")} COP</p>
+  `;
 
-  window.open(url, "_blank");
+  // WhatsApp SIN ERROR 404
+  const message = encodeURIComponent(
+    `Hola, hice una estimación solar.\n\nCiudad: ${city}\nInmueble: ${property}\nConsumo: ${consumption} kWh\nSistema estimado: ${systemSize} kWp`
+  );
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/573227228786?text=${message}`;
 }
+
+function updateProgress() {
+  const percent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+  document.getElementById("progressBar").style.width = percent + "%";
+}
+
 
