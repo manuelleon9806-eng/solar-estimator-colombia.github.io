@@ -16,29 +16,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showStep(stepIndex) {
     steps.forEach((step, i) => {
-      step.classList.toggle("active", i === stepIndex);
+      step.classList.remove("active");
+      if (i === stepIndex) step.classList.add("active");
     });
 
     const progress = ((stepIndex + 1) / steps.length) * 100;
     progressBar.style.width = progress + "%";
   }
 
-  // PASO 1 → PASO 2
-  btnStep1.addEventListener("click", () => {
-    consumo = Number(consumoInput.value);
+  btnStep1.addEventListener("click", (e) => {
+    e.preventDefault(); // 🔥 CLAVE
 
+    consumo = Number(consumoInput.value);
     if (!consumo || consumo <= 0) {
-      alert("Por favor ingresa un consumo válido en kWh");
+      alert("Ingresa un consumo válido");
       return;
     }
 
     showStep(1);
   });
 
-  // PASO 2 → RESULTADO
-  btnStep2.addEventListener("click", () => {
-    const presupuesto = Number(presupuestoInput.value);
+  btnStep2.addEventListener("click", (e) => {
+    e.preventDefault(); // 🔥 CLAVE
 
+    const presupuesto = Number(presupuestoInput.value);
     if (!presupuesto || presupuesto <= 0) {
       alert("Ingresa un presupuesto válido");
       return;
@@ -48,15 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const ahorro = Math.round(consumo * 900);
 
     resultadoFinal.textContent = `${sistemaKW} kWp`;
-    resultado.textContent = `Podrías ahorrar aproximadamente $${ahorro.toLocaleString(
-      "es-CO"
-    )} COP al mes en tu factura.`
+    resultado.textContent = `Ahorro estimado: $${ahorro.toLocaleString("es-CO")} COP / mes`;
 
     showStep(2);
   });
 
-  // REINICIAR
-  btnRestart.addEventListener("click", () => {
+  btnRestart.addEventListener("click", (e) => {
+    e.preventDefault(); // 🔥 CLAVE
+
     consumoInput.value = "";
     presupuestoInput.value = "";
     resultado.textContent = "";
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showStep(0);
   });
 
-  // Inicial
   showStep(0);
 });
+
 
