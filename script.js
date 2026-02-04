@@ -7,7 +7,7 @@ function nextStep(step) {
 }
 
 function estimate() {
-  const city = document.getElementById("city").value;
+  const city = document.getElementById("city").value.trim();
   const property = document.getElementById("property").value;
   const consumption = Number(document.getElementById("consumption").value);
 
@@ -34,9 +34,9 @@ function estimate() {
     `Hola, hice una estimación solar:\nCiudad: ${city}\nInmueble: ${property}\nConsumo: ${consumption} kWh\nSistema estimado: ${systemSize} kWp`
   );
 
-  const whatsappUrl = `https://wa.me/573227228786?text=${message}`;
+  const whatsappLink = `https://wa.me/573227228786?text=${message}`;
 
   const btn = document.getElementById("whatsapp");
-  btn.href = whatsappUrl;
+  btn.href = whatsappLink;
   btn.classList.remove("hidden");
 }
