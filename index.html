@@ -6,6 +6,7 @@
   <title>Estimador Solar Colombia</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <div class="container">
     <header class="hero">
@@ -19,45 +20,35 @@
       </div>
 
       <!-- Paso 1 -->
-      <div class="step active" id="step-1">
+      <div class="step active">
         <h2>¿Cuál es tu consumo mensual?</h2>
         <input type="number" id="consumo" placeholder="Ejemplo: 450 kWh" min="1">
-        <button id="btn-step-1">Ver estimación</button>
+        <button id="btn-step-1" type="button">Ver estimación</button>
       </div>
 
       <!-- Paso 2 -->
-      <div class="step" id="step-2">
+      <div class="step">
         <h2>¿Cuál es tu presupuesto?</h2>
         <input type="number" id="presupuesto" placeholder="Ejemplo: 8000000" min="1">
-        <button id="btn-step-2">Calcular mi sistema</button>
+        <button id="btn-step-2" type="button">Calcular mi sistema</button>
       </div>
 
       <!-- Paso 3 -->
-      <div class="step" id="step-3">
-     <h2>Tu estimación está lista ⚡</h2>
+      <div class="step">
+        <h2>Tu estimación está lista ⚡</h2>
+
         <p class="hint">
-  No spam · No llamadas automáticas · Solo contacto humano
-</p>
+          No spam · No llamadas automáticas · Solo contacto humano
+        </p>
 
+        <div class="result-box">
+          <p class="result-highlight">
+            Con un sistema solar de aproximadamente:
+          </p>
 
-<div class="result-box">
-  <p class="result-highlight">
-    Con un sistema solar de aproximadamente:
-  </p>
+          <div class="result-value" id="resultadoFinal"></div>
 
-  <div class="result-value" id="resultadoFinal"></div>
-
-  <p id="resultado">
-    Este sistema podría ayudarte a reducir gran parte de tu factura eléctrica
-    y protegerte frente a futuras alzas del costo de la energía.
-  </p>
-</div>
-
-<p class="hint">
-  Este cálculo es orientativo y se basa en consumos promedio en Colombia.
-</p>
-
-          <div class="ahorro" id="ahorro"></div>
+          <p id="resultado"></p>
         </div>
 
         <form id="lead-form">
@@ -68,7 +59,10 @@
           </button>
         </form>
 
-        <button id="btn-restart" style="margin-top:12px; background:#6b7280;">Hacer otra consulta</button>
+        <button id="btn-restart" type="button"
+          style="margin-top:12px; background:#6b7280;">
+          Hacer otra consulta
+        </button>
       </div>
     </div>
 
@@ -85,5 +79,6 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
