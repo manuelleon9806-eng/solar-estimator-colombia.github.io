@@ -25,25 +25,25 @@ const factorSeguridad = 1.2; // Para pérdidas y variabilidad
 // Avanzar pasos
 btnStep1.addEventListener('click', () => {
   consumo = parseFloat(consumoInput.value);
-  if (consumo > 0) {
-    step1.classList.remove('active');
-    step2.classList.add('active');
-    progressBar.style.width = '50%';
-  } else {
-    alert('Ingresa un consumo válido.');
+  if (isNaN(consumo) || consumo <= 0) {
+    alert('Ingresa un consumo válido mayor a 0.');
+    return;
   }
+  step1.classList.remove('active');
+  step2.classList.add('active');
+  progressBar.style.width = '50%';
 });
 
 btnStep2.addEventListener('click', () => {
   presupuesto = parseFloat(presupuestoInput.value);
-  if (presupuesto > 0) {
-    step2.classList.remove('active');
-    step3.classList.add('active');
-    progressBar.style.width = '100%';
-    calcularResultado();
-  } else {
-    alert('Ingresa un presupuesto válido.');
+  if (isNaN(presupuesto) || presupuesto <= 0) {
+    alert('Ingresa un presupuesto válido mayor a 0.');
+    return;
   }
+  step2.classList.remove('active');
+  step3.classList.add('active');
+  progressBar.style.width = '100%';
+  calcularResultado();
 });
 
 // Cálculo preciso
@@ -100,5 +100,3 @@ btnRestart.addEventListener('click', () => {
   resultado.textContent = '';
   resultadoFinal.textContent = 'Calculando...';
 });
-
-
