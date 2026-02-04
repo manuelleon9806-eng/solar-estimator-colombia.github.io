@@ -1,47 +1,49 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Estimador Solar Colombia</title>
-  <link rel="stylesheet" href="./styles.css">
+  <meta charset="UTF-8" />
+  <title>Estimador Solar</title>
+  <link rel="stylesheet" href="Style.css" />
 </head>
 <body>
 
   <h1>☀️ Estimador Solar</h1>
 
   <!-- PASO 1 -->
-  <div id="step1">
-    <h3>Paso 1</h3>
+  <div class="step active" id="step1">
+    <h2>Paso 1</h2>
     <input type="text" id="city" placeholder="Ciudad (Ej: Bogotá)">
-    <button onclick="nextStep(2)">Siguiente</button>
+    <button onclick="nextStep(1)">Siguiente</button>
   </div>
 
   <!-- PASO 2 -->
-  <div id="step2" class="hidden">
-    <h3>Paso 2</h3>
+  <div class="step" id="step2">
+    <h2>Paso 2</h2>
     <select id="property">
       <option value="">Tipo de inmueble</option>
-      <option>Casa</option>
-      <option>Apartamento</option>
-      <option>Empresa</option>
+      <option value="Casa">Casa</option>
+      <option value="Apartamento">Apartamento</option>
+      <option value="Empresa">Empresa</option>
     </select>
-    <button onclick="nextStep(3)">Siguiente</button>
+    <button onclick="nextStep(2)">Siguiente</button>
   </div>
 
   <!-- PASO 3 -->
-  <div id="step3" class="hidden">
-    <h3>Paso 3</h3>
+  <div class="step" id="step3">
+    <h2>Paso 3</h2>
     <input type="number" id="consumption" placeholder="Consumo mensual (kWh)">
-    <button onclick="estimate()">Ver estimación</button>
+    <button onclick="calculate()">Ver estimación</button>
   </div>
 
   <!-- RESULTADO -->
-  <div id="result" class="hidden"></div>
+  <div class="step" id="result">
+    <h2>Resultado</h2>
+    <p id="estimate"></p>
+    <a id="whatsapp" target="_blank">Hablar por WhatsApp</a>
+    <br><br>
+    <button onclick="resetAll()">Calcular de nuevo</button>
+  </div>
 
-  <a id="whatsapp" class="hidden" target="_blank">
-    Hablar por WhatsApp
-  </a>
-
-  <script src="./script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
