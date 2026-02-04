@@ -1,96 +1,73 @@
-let pasoActual = 1;
+document.addEventListener("DOMContentLoaded", () => {
+  const steps = document.querySelectorAll(".step");
+  const progressBar = document.getElementById("progress-bar");
 
-// ====== ELEMENTOS ======
-const pasos = document.querySelectorAll(".step");
-const progress = document.getElementById("progress");
+  const consumoInput = document.getElementById("consumo");
+  const presupuestoInput = document.getElementById("presupuesto");
 
-// ====== MOSTRAR PASO ======
-function mostrarPaso(paso) {
-  pasos.forEach((step, index) => {
-    step.classList.toggle("active", index + 1 === paso);
-  });
+  const btnStep1 = document.getElementById("btn-step-1");
+  const btnStep2 = document.getElementById("btn-step-2");
+  const btnRestart = document.getElementById("btn-restart");
 
-  const porcentaje = ((paso - 1) / (pasos.length - 1)) * 100;
-  progress.style.width = porcentaje + "%";
-}
+  const resultado = document.getElementById("resultado");
+  const resultadoFinal = document.getElementById("resultadoFinal");
 
-// ====== SIGUIENTE PASO ======
-function siguientePaso() {
-  if (pasoActual < pasos.length) {
-    pasoActual++;
-    mostrarPaso(pasoActual);
-  }
-}
+  let consumo = 0;
 
-// ====== CALCULAR ESTIMACIÓN ======
-function calcular() {
-  const consumo = parseFloat(document.getElementById("consumo").value);
+  function showStep(stepIndex) {
+    steps.forEach((step, i) => {
+      step.classList.toggle("active", i === stepIndex);
+    });
 
-  if (isNaN(consumo) || consumo <= 0) {
-    alert("Ingresa un valor válido");
-    return;
+    const progress = ((stepIndex + 1) / steps.length) * 100;
+    progressBar.style.width = progress + "%";
   }
 
-  // Fórmula básica (ajustable)
-  const sistema = (consumo / 120).toFixed(2);
+  // PASO 1 → PASO 2
+  btnStep1.addEventListener("click", () => {
+    consumo = Number(consumoInput.value);
 
-  document.getElementById("resultadoFinal").innerText = sistema + " kWp";
+    if (!consumo || consumo <= 0) {
+      alert("Por favor ingresa un consumo válido en kWh");
+      return;
+    }
 
-  // 👉 GUARDAR LEAD
-  guardarLead(consumo, sistema);
-
-  siguientePaso();
-}
-
-// ====== GUARDAR LEAD ======
-function guardarLead(consumo, sistema) {
-  const lead = {
-    id: crypto.randomUUID(),
-    consumo: consumo,
-    sistema_estimado: sistema,
-    fecha: new Date().toISOString(),
-    fuente: "estimador_web"
-  };
-
-  // 1️⃣ Guardar local (backup seguro)
-  let leads = JSON.parse(localStorage.getItem("leads")) || [];
-  leads.push(lead);
-  localStorage.setItem("leads", JSON.stringify(leads));
-
-  // 2️⃣ Enviar a backend (si existe)
-  enviarLead(lead);
-}
-
-// ====== ENVIAR LEAD AL BACKEND ======
-function enviarLead(lead) {
-  const ENDPOINT = "https://script.google.com/macros/s/AKfycbyHq2NCgpfKIgPhIR0rrm2sO97glsI8D4-_Q8gMDdbVkmjK5N9vpVseJVAIHEki4MvTCA/exec"; // luego lo cambiamos
-
-  fetch(ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(lead)
-  })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Lead enviado correctamente:", data);
-  })
-  .catch(err => {
-    console.warn("No se pudo enviar el lead, quedó guardado localmente", err);
+    showStep(1);
   });
-}
 
-// ====== REINICIAR ======
-function reiniciar() {
-  pasoActual = 1;
-  mostrarPaso(pasoActual);
-  document.getElementById("consumo").value = "";
-}
+  // PASO 2 → RESULTADO
+  btnStep2.addEventListener("click", () => {
+    const presupuesto = Number(presupuestoInput.value);
 
-// ====== INICIAL ======
-mostrarPaso(pasoActual);
+    if (!presupuesto || presupuesto <= 0) {
+      alert("Ingresa un presupuesto válido");
+      return;
+    }
 
+    const sistemaKW = Math.ceil(consumo / 120);
+    const ahorro = Math.round(consumo * 900);
+
+    resultadoFinal.textContent = `${sistemaKW} kWp`;
+    resultado.textContent = `Podrías ahorrar aproximadamente $${ahorro.toLocaleString(
+      "es-CO"
+    )} COP al mes en tu factura.`
+
+    showStep(2);
+  });
+
+  // REINICIAR
+  btnRestart.addEventListener("click", () => {
+    consumoInput.value = "";
+    presupuestoInput.value = "";
+    resultado.textContent = "";
+    resultadoFinal.textContent = "";
+
+    showStep(0);
+  });
+
+  // Inicial
+  showStep(0);
+});
 
 
 
