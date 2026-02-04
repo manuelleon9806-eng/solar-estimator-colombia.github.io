@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `Quiero hablar con un instalador.`
     );
 
-    btnWhatsapp.href = `https://wa.me/57TU_NUMERO_AQUI?text=${mensaje}`;
+    btnWhatsapp.href = `https://wa.me/573227228786?text=${mensaje}`;
 
     step = 2;
     showStep(step);
