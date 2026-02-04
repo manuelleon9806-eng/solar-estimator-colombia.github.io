@@ -69,5 +69,3 @@ document.addEventListener("DOMContentLoaded", () => {
   showStep(0);
 });
 
-
-
