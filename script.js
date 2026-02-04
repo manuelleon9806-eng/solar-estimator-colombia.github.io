@@ -1,81 +1,75 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /***********************
-   ELEMENTOS
-  ***********************/
   const steps = document.querySelectorAll(".step");
-  const btnStep1 = document.getElementById("btn-step-1");
-  const btnStep2 = document.getElementById("btn-step-2");
+  const progressBar = document.getElementById("progress-bar");
+
+  const btn1 = document.getElementById("btn-step-1");
+  const btn2 = document.getElementById("btn-step-2");
   const btnRestart = document.getElementById("btn-restart");
+  const btnWhatsapp = document.getElementById("btn-whatsapp");
 
   const consumoInput = document.getElementById("consumo");
   const presupuestoInput = document.getElementById("presupuesto");
 
   const resultadoFinal = document.getElementById("resultadoFinal");
-  const resultadoTexto = document.getElementById("resultado");
+  const resultadoTexto = document.getElementById("resultadoTexto");
 
-  let currentStep = 0;
+  let step = 0;
 
-  /***********************
-   CONTROL DE PASOS
-  ***********************/
-  function showStep(index) {
-    steps.forEach((step, i) => {
-      step.style.display = i === index ? "block" : "none";
-    });
+  function showStep(i) {
+    steps.forEach((s, index) =>
+      s.classList.toggle("active", index === i)
+    );
+    progressBar.style.width = `${(i + 1) * 33.33}%`;
   }
 
-  // MOSTRAR PASO 1 AL CARGAR
-  showStep(currentStep);
+  showStep(0);
 
-  /***********************
-   PASO 1 → PASO 2
-  ***********************/
-  btnStep1.addEventListener("click", () => {
-    const consumo = Number(consumoInput.value);
-
-    if (!consumo || consumo <= 0) {
-      alert("Ingresa un consumo válido en kWh");
+  btn1.addEventListener("click", () => {
+    if (consumoInput.value <= 0) {
+      alert("Ingresa un consumo válido");
       return;
     }
-
-    currentStep = 1;
-    showStep(currentStep);
+    step = 1;
+    showStep(step);
   });
 
-  /***********************
-   PASO 2 → PASO 3
-  ***********************/
-  btnStep2.addEventListener("click", () => {
+  btn2.addEventListener("click", () => {
     const consumo = Number(consumoInput.value);
     const presupuesto = Number(presupuestoInput.value);
 
-    if (!presupuesto || presupuesto <= 0) {
+    if (presupuesto <= 0) {
       alert("Ingresa un presupuesto válido");
       return;
     }
 
     const kwp = (consumo / 120).toFixed(1);
-
-    resultadoFinal.textContent = `${kwp} kWp aprox`;
+    resultadoFinal.textContent = `${kwp} kWp`;
 
     resultadoTexto.textContent =
       presupuesto >= kwp * 4500000
-        ? "Con este presupuesto el sistema es viable para cubrir gran parte de tu consumo."
-        : "Con este presupuesto podrías iniciar con un sistema parcial y reducir tu factura.";
+        ? "Con este presupuesto el sistema es totalmente viable."
+        : "Con este presupuesto podrías iniciar con un sistema parcial.";
 
-    currentStep = 2;
-    showStep(currentStep);
+    const mensaje = encodeURIComponent(
+      `Hola 👋 hice una estimación solar:\n\n` +
+      `🔋 Consumo: ${consumo} kWh\n` +
+      `⚡ Sistema estimado: ${kwp} kWp\n` +
+      `💰 Presupuesto: $${presupuesto.toLocaleString()} COP\n\n` +
+      `Quiero hablar con un instalador.`
+    );
+
+    btnWhatsapp.href = `https://wa.me/57TU_NUMERO_AQUI?text=${mensaje}`;
+
+    step = 2;
+    showStep(step);
   });
 
-  /***********************
-   REINICIAR
-  ***********************/
   btnRestart.addEventListener("click", () => {
     consumoInput.value = "";
     presupuestoInput.value = "";
-    currentStep = 0;
-    showStep(currentStep);
+    step = 0;
+    showStep(step);
   });
 
 });
