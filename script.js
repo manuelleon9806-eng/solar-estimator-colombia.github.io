@@ -1,99 +1,96 @@
-// =====================
-// ELEMENTOS
-// =====================
-const step1 = document.getElementById("step-1");
-const step2 = document.getElementById("step-2");
-const step3 = document.getElementById("step-3");
+let pasoActual = 1;
 
-const btnStep1 = document.getElementById("btn-step-1");
-const btnStep2 = document.getElementById("btn-step-2");
-const btnRestart = document.getElementById("btn-restart");
+// ====== ELEMENTOS ======
+const pasos = document.querySelectorAll(".step");
+const progress = document.getElementById("progress");
 
-const consumoInput = document.getElementById("consumo");
-const presupuestoInput = document.getElementById("presupuesto");
-
-const resultadoFinal = document.getElementById("resultadoFinal");
-const resultadoTexto = document.getElementById("resultado");
-
-const progressBar = document.getElementById("progress-bar");
-
-// =====================
-// FUNCIÓN CAMBIAR PASO
-// =====================
-function showStep(step) {
-  document.querySelectorAll(".step").forEach((el) => {
-    el.classList.remove("active");
+// ====== MOSTRAR PASO ======
+function mostrarPaso(paso) {
+  pasos.forEach((step, index) => {
+    step.classList.toggle("active", index + 1 === paso);
   });
-  step.classList.add("active");
+
+  const porcentaje = ((paso - 1) / (pasos.length - 1)) * 100;
+  progress.style.width = porcentaje + "%";
 }
 
-// =====================
-// FUNCIÓN PROGRESS BAR
-// =====================
-function updateProgress(percent) {
-  progressBar.style.width = percent + "%";
+// ====== SIGUIENTE PASO ======
+function siguientePaso() {
+  if (pasoActual < pasos.length) {
+    pasoActual++;
+    mostrarPaso(pasoActual);
+  }
 }
 
-// =====================
-// PASO 1 → PASO 2
-// =====================
-btnStep1.addEventListener("click", () => {
-  const consumo = Number(consumoInput.value);
+// ====== CALCULAR ESTIMACIÓN ======
+function calcular() {
+  const consumo = parseFloat(document.getElementById("consumo").value);
 
-  if (!consumo || consumo <= 0) {
-    alert("Ingresa un consumo válido en kWh.");
+  if (isNaN(consumo) || consumo <= 0) {
+    alert("Ingresa un valor válido");
     return;
   }
 
-  showStep(step2);
-  updateProgress(66);
-});
+  // Fórmula básica (ajustable)
+  const sistema = (consumo / 120).toFixed(2);
 
-// =====================
-// PASO 2 → PASO 3 (RESULTADO)
-// =====================
-btnStep2.addEventListener("click", () => {
-  const consumo = Number(consumoInput.value);
-  const presupuesto = Number(presupuestoInput.value);
+  document.getElementById("resultadoFinal").innerText = sistema + " kWp";
 
-  if (!presupuesto || presupuesto <= 0) {
-    alert("Ingresa un presupuesto válido.");
-    return;
-  }
+  // 👉 GUARDAR LEAD
+  guardarLead(consumo, sistema);
 
-  // CÁLCULO ESTIMADO
-  const kwRequeridos = (consumo / 120).toFixed(1); // promedio Colombia
-  const costoEstimado = kwRequeridos * 4500000;
+  siguientePaso();
+}
 
-  resultadoFinal.textContent = `${kwRequeridos} kWp aprox`;
+// ====== GUARDAR LEAD ======
+function guardarLead(consumo, sistema) {
+  const lead = {
+    id: crypto.randomUUID(),
+    consumo: consumo,
+    sistema_estimado: sistema,
+    fecha: new Date().toISOString(),
+    fuente: "estimador_web"
+  };
 
-  if (presupuesto >= costoEstimado) {
-    resultadoTexto.textContent =
-      "Con tu presupuesto podrías cubrir gran parte de tu consumo mensual con energía solar. Es un escenario viable para evaluación técnica.";
-  } else {
-    resultadoTexto.textContent =
-      "Con este presupuesto podrías iniciar un sistema parcial y reducir tu factura eléctrica, aunque no cubriría el 100%.";
-  }
+  // 1️⃣ Guardar local (backup seguro)
+  let leads = JSON.parse(localStorage.getItem("leads")) || [];
+  leads.push(lead);
+  localStorage.setItem("leads", JSON.stringify(leads));
 
-  showStep(step3);
-  updateProgress(100);
-});
+  // 2️⃣ Enviar a backend (si existe)
+  enviarLead(lead);
+}
 
-// =====================
-// REINICIAR
-// =====================
-btnRestart.addEventListener("click", () => {
-  consumoInput.value = "";
-  presupuestoInput.value = "";
+// ====== ENVIAR LEAD AL BACKEND ======
+function enviarLead(lead) {
+  const ENDPOINT = "https://TU-ENDPOINT-AQUI.com/leads"; // luego lo cambiamos
 
-  showStep(step1);
-  updateProgress(33);
-});
+  fetch(ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(lead)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Lead enviado correctamente:", data);
+  })
+  .catch(err => {
+    console.warn("No se pudo enviar el lead, quedó guardado localmente", err);
+  });
+}
 
-// =====================
-// INICIAL
-// =====================
-updateProgress(33);
+// ====== REINICIAR ======
+function reiniciar() {
+  pasoActual = 1;
+  mostrarPaso(pasoActual);
+  document.getElementById("consumo").value = "";
+}
+
+// ====== INICIAL ======
+mostrarPaso(pasoActual);
+
 
 
 
