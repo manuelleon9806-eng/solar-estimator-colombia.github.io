@@ -1,47 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Estimador Solar</title>
-  <link rel="stylesheet" href="Style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estimador Solar Colombia | Energía Solar Clara y Accesible</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Calcula en minutos tu sistema solar ideal en Colombia. Compara opciones según tu consumo y presupuesto. Sin compromisos.">
 </head>
 <body>
+  <div class="container">
 
-  <h1>☀️ Estimador Solar</h1>
+    <!-- Hero Section -->
+    <header class="hero">
+      <h1>Estimador Solar Colombia</h1>
+      <h2>Energía solar clara, sin vueltas ni presiones</h2>
+      <p>¿Cansado de buscar empresa por empresa? Aquí obtienes una estimación rápida y realista basada en datos de Colombia. Ideal para hogares y pequeños negocios.</p>
+      <button class="cta-btn" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">
+        Inicia tu estimación gratis
+      </button>
+    </header>
 
-  <!-- PASO 1 -->
-  <div class="step active" id="step1">
-    <h2>Paso 1</h2>
-    <input type="text" id="city" placeholder="Ciudad (Ej: Bogotá)">
-    <button onclick="nextStep(1)">Siguiente</button>
-  </div>
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section">
+      <div class="progress">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
 
-  <!-- PASO 2 -->
-  <div class="step" id="step2">
-    <h2>Paso 2</h2>
-    <select id="property">
-      <option value="">Tipo de inmueble</option>
-      <option value="Casa">Casa</option>
-      <option value="Apartamento">Apartamento</option>
-      <option value="Empresa">Empresa</option>
-    </select>
-    <button onclick="nextStep(2)">Siguiente</button>
-  </div>
+      <!-- Paso 1: Consumo -->
+      <div id="step-1" class="step active">
+        <h2>Paso 1: ¿Cuál es tu consumo mensual de energía?</h2>
+        <p>Ejemplo: Revisa tu factura de luz (promedio en kWh).</p>
+        <input type="number" id="consumo" placeholder="Ej: 250 kWh" min="1" required>
+        <button id="btn-step-1" class="next-btn">Siguiente</button>
+      </div>
 
-  <!-- PASO 3 -->
-  <div class="step" id="step3">
-    <h2>Paso 3</h2>
-    <input type="number" id="consumption" placeholder="Consumo mensual (kWh)">
-    <button onclick="calculate()">Ver estimación</button>
-  </div>
+      <!-- Paso 2: Presupuesto -->
+      <div id="step-2" class="step">
+        <h2>Paso 2: ¿Cuál es tu presupuesto aproximado?</h2>
+        <p>Incluye instalación y paneles (en COP).</p>
+        <input type="number" id="presupuesto" placeholder="Ej: 15.000.000 COP" min="1" required>
+        <button id="btn-step-2" class="next-btn">Ver resultado</button>
+      </div>
 
-  <!-- RESULTADO -->
-  <div class="step" id="result">
-    <h2>Resultado</h2>
-    <p id="estimate"></p>
-    <a id="whatsapp" target="_blank">Hablar por WhatsApp</a>
-    <br><br>
-    <button onclick="resetAll()">Calcular de nuevo</button>
+      <!-- Paso 3: Resultado -->
+      <div id="step-3" class="step">
+        <h2>¡Tu estimación está lista! ⚡</h2>
+        <div class="result-box">
+          <p id="resultado"></p>
+          <span class="result-label">Sistema recomendado:</span>
+          <span id="resultadoFinal" class="result-value">Calculando...</span>
+        </div>
+
+        <p>¿Quieres una cotización personalizada? Deja tus datos y te contacto por WhatsApp sin compromiso.</p>
+        <form id="lead-form">
+          <input type="text" id="nombre" placeholder="Tu nombre" required>
+          <input type="tel" id="telefono" placeholder="Tu WhatsApp (ej: 3001234567)" required>
+          <button type="submit" class="whatsapp-btn">Continuar por WhatsApp</button>
+        </form>
+
+        <button id="btn-restart" class="restart-btn">Reiniciar calculadora</button>
+      </div>
+    </section>
+
+    <!-- Sección de Confianza -->
+    <section class="confianza">
+      <h2>Por qué usar nuestro estimador</h2>
+      <ul>
+        <li>✔ Basado en datos reales de irradiación solar en Colombia (fuente: IDEAM).</li>
+        <li>✔ Estimaciones ajustadas a tu presupuesto, sin promesas irreales.</li>
+        <li>✔ Primer paso para ahorrar en tu factura de luz hasta un 70%.</li>
+        <li>✔ Creado por expertos en energía solar para personas como tú.</li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>Estimador Solar Colombia © 2026 • Hecho con ❤️ en Colombia para un futuro sostenible. <a href="mailto:info@estimadorsolar.co">Contacto</a></p>
+    </footer>
   </div>
 
   <script src="script.js"></script>
