@@ -1,75 +1,39 @@
-document.addEventListener("DOMContentLoaded", () => {
+let currentStep = 0;
+const steps = document.querySelectorAll(".step");
+const progressBar = document.getElementById("progressBar");
 
-  const steps = document.querySelectorAll(".step");
-  const progressBar = document.getElementById("progress-bar");
+function showStep(index) {
+  steps.forEach(step => step.classList.remove("active"));
+  steps[index].classList.add("active");
+  progressBar.style.width = ((index) / (steps.length - 1)) * 100 + "%";
+}
 
-  const btn1 = document.getElementById("btn-step-1");
-  const btn2 = document.getElementById("btn-step-2");
-  const btnRestart = document.getElementById("btn-restart");
-  const btnWhatsapp = document.getElementById("btn-whatsapp");
-
-  const consumoInput = document.getElementById("consumo");
-  const presupuestoInput = document.getElementById("presupuesto");
-
-  const resultadoFinal = document.getElementById("resultadoFinal");
-  const resultadoTexto = document.getElementById("resultadoTexto");
-
-  let step = 0;
-
-  function showStep(i) {
-    steps.forEach((s, index) =>
-      s.classList.toggle("active", index === i)
-    );
-    progressBar.style.width = `${(i + 1) * 33.33}%`;
+function nextStep() {
+  if (currentStep < steps.length - 1) {
+    currentStep++;
+    showStep(currentStep);
   }
+}
 
-  showStep(0);
+function enviarWhatsApp() {
+  const ciudad = document.getElementById("ciudad").value;
+  const tipo = document.getElementById("tipo").value;
+  const consumo = document.getElementById("consumo").value;
 
-  btn1.addEventListener("click", () => {
-    if (consumoInput.value <= 0) {
-      alert("Ingresa un consumo válido");
-      return;
-    }
-    step = 1;
-    showStep(step);
-  });
+  const mensaje = `
+Hola 👋
+Quiero una estimación solar ☀️
 
-  btn2.addEventListener("click", () => {
-    const consumo = Number(consumoInput.value);
-    const presupuesto = Number(presupuestoInput.value);
+📍 Ciudad: ${ciudad}
+🏠 Inmueble: ${tipo}
+⚡ Consumo mensual: ${consumo} kWh
 
-    if (presupuesto <= 0) {
-      alert("Ingresa un presupuesto válido");
-      return;
-    }
+Quedo atento, gracias.
+`;
 
-    const kwp = (consumo / 120).toFixed(1);
-    resultadoFinal.textContent = `${kwp} kWp`;
+  const phone = "573227228786";
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(mensaje)}`;
 
-    resultadoTexto.textContent =
-      presupuesto >= kwp * 4500000
-        ? "Con este presupuesto el sistema es totalmente viable."
-        : "Con este presupuesto podrías iniciar con un sistema parcial.";
+  window.open(url, "_blank");
+}
 
-    const mensaje = encodeURIComponent(
-      `Hola 👋 hice una estimación solar:\n\n` +
-      `🔋 Consumo: ${consumo} kWh\n` +
-      `⚡ Sistema estimado: ${kwp} kWp\n` +
-      `💰 Presupuesto: $${presupuesto.toLocaleString()} COP\n\n` +
-      `Quiero hablar con un instalador.`
-    );
-
-    btnWhatsapp.href = `https://wa.me/573227228786?text=${mensaje}`;
-
-    step = 2;
-    showStep(step);
-  });
-
-  btnRestart.addEventListener("click", () => {
-    consumoInput.value = "";
-    presupuestoInput.value = "";
-    step = 0;
-    showStep(step);
-  });
-
-});
