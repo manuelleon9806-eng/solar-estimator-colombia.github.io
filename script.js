@@ -1,56 +1,102 @@
-let data = {};
+// Elementos DOM
+const step1 = document.getElementById('step-1');
+const step2 = document.getElementById('step-2');
+const step3 = document.getElementById('step-3');
+const btnStep1 = document.getElementById('btn-step-1');
+const btnStep2 = document.getElementById('btn-step-2');
+const btnRestart = document.getElementById('btn-restart');
+const progressBar = document.getElementById('progress-bar');
+const consumoInput = document.getElementById('consumo');
+const presupuestoInput = document.getElementById('presupuesto');
+const resultado = document.getElementById('resultado');
+const resultadoFinal = document.getElementById('resultadoFinal');
+const leadForm = document.getElementById('lead-form');
 
-function nextStep(step) {
-  if (step === 1) {
-    const city = document.getElementById("city").value;
-    if (!city) return alert("Ingresa la ciudad");
-    data.city = city;
+// Variables globales
+let consumo = 0;
+let presupuesto = 0;
+let costoEstimado = 0;
+
+// Factores reales para Colombia (promedio irradiación: 4.5 kWh/m²/día, eficiencia paneles: 20%, factor seguridad: 1.2)
+const irradiacionDiaria = 4.5; // kWh/m²/día (promedio nacional, fuente IDEAM)
+const eficienciaPanel = 0.20; // 20%
+const factorSeguridad = 1.2; // Para pérdidas y variabilidad
+
+// Avanzar pasos
+btnStep1.addEventListener('click', () => {
+  consumo = parseFloat(consumoInput.value);
+  if (isNaN(consumo) || consumo <= 0) {
+    alert('Ingresa un consumo válido mayor a 0.');
+    return;
+  }
+  step1.classList.remove('active');
+  step2.classList.add('active');
+  progressBar.style.width = '50%';
+});
+
+btnStep2.addEventListener('click', () => {
+  presupuesto = parseFloat(presupuestoInput.value);
+  if (isNaN(presupuesto) || presupuesto <= 0) {
+    alert('Ingresa un presupuesto válido mayor a 0.');
+    return;
+  }
+  step2.classList.remove('active');
+  step3.classList.add('active');
+  progressBar.style.width = '100%';
+  calcularResultado();
+});
+
+// Cálculo preciso
+function calcularResultado() {
+  // kWh diarios requeridos (asumiendo 30 días/mes)
+  const kWhDiarios = (consumo / 30) * factorSeguridad;
+
+  // Tamaño sistema en kWp (kW pico)
+  const kwRequeridos = kWhDiarios / (irradiacionDiaria * eficienciaPanel);
+
+  // Costo estimado (aprox 4.500.000 COP por kWp, basado en mercado colombiano 2026)
+  costoEstimado = kwRequeridos * 4500000;
+
+  // Escenario basado en comparación
+  let escenario = '';
+  if (costoEstimado <= presupuesto) {
+    escenario = `¡Viable! Puedes cubrir tu consumo con un sistema de ${kwRequeridos.toFixed(1)} kWp por aprox. ${costoEstimado.toLocaleString()} COP. Ahorro estimado: hasta 70% en factura.`;
+  } else {
+    const kwPosible = presupuesto / 4500000;
+    escenario = `Con tu presupuesto, puedes instalar aprox. ${kwPosible.toFixed(1)} kWp, cubriendo ${(kwPosible / kwRequeridos * 100).toFixed(0)}% de tu consumo. Considera financiamiento.`;
   }
 
-  if (step === 2) {
-    const property = document.getElementById("property").value;
-    if (!property) return alert("Selecciona el tipo de inmueble");
-    data.property = property;
-  }
-
-  document.getElementById(`step${step}`).classList.remove("active");
-  document.getElementById(`step${step + 1}`).classList.add("active");
+  resultado.textContent = escenario;
+  resultadoFinal.textContent = `${kwRequeridos.toFixed(1)} kWp`;
 }
 
-function calculate() {
-  const consumption = document.getElementById("consumption").value;
-  if (!consumption || consumption <= 0) {
-    return alert("Ingresa un consumo válido");
-  }
+// Enviar a WhatsApp (leads manuales por ahora)
+leadForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const nombre = document.getElementById('nombre').value;
+  const telefono = document.getElementById('telefono').value;
 
-  data.consumption = consumption;
+  // Mensaje prellenado
+  const mensaje = `Hola, soy ${nombre}. Mi consumo es ${consumo} kWh/mes, presupuesto ${presupuesto.toLocaleString()} COP. Sistema estimado: ${resultadoFinal.textContent}. Costo aprox: ${costoEstimado.toLocaleString()} COP.`;
 
-  const systemKW = (consumption / 120).toFixed(1);
-  const price = (systemKW * 4500000).toLocaleString("es-CO");
+  // Redirigir a WhatsApp (tu número)
+  const telefonoDestino = '573227228786';
+  const whatsappUrl = `https://wa.me/${telefonoDestino}?text=${encodeURIComponent(mensaje)}`;
+  window.open(whatsappUrl, '_blank');
 
-  document.getElementById("estimate").innerHTML =
-    `Para un consumo de <b>${consumption} kWh</b>, necesitas un sistema de <b>${systemKW} kW</b>.<br>
-     Inversión estimada: <b>$${price} COP</b>`;
+  // Nota: Por ahora, guarda manualmente en Sheets desde WhatsApp. Más tarde automatizamos.
+  alert('¡Gracias! Te redirigimos a WhatsApp. Guarda el lead manualmente por ahora.');
+});
 
-  const message = encodeURIComponent(
-    `Hola, hice una estimación solar:\n\n` +
-    `📍 Ciudad: ${data.city}\n` +
-    `🏠 Inmueble: ${data.property}\n` +
-    `⚡ Consumo: ${consumption} kWh\n` +
-    `🔋 Sistema estimado: ${systemKW} kW\n` +
-    `💰 Valor aproximado: $${price} COP`
-  );
-
-  document.getElementById("whatsapp").href =
-    `https://wa.me/573227228786?text=${message}`;
-
-  document.getElementById("step3").classList.remove("active");
-  document.getElementById("result").classList.add("active");
-}
-
-function resetAll() {
-  data = {};
-  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
-  document.getElementById("step1").classList.add("active");
-}
-
+// Reiniciar
+btnRestart.addEventListener('click', () => {
+  step3.classList.remove('active');
+  step1.classList.add('active');
+  progressBar.style.width = '0%';
+  consumoInput.value = '';
+  presupuestoInput.value = '';
+  document.getElementById('nombre').value = '';
+  document.getElementById('telefono').value = '';
+  resultado.textContent = '';
+  resultadoFinal.textContent = 'Calculando...';
+});
