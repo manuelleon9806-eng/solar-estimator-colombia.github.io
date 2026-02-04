@@ -119,10 +119,54 @@ guardarLead({
   escenario: presupuesto >= costoEstimado ? "Viable" : "Parcial"
 });
 
-    const telefonoDestino = "573227228786"; // 👈 CAMBIA ESTO
-    window.open(`https://wa.me/${telefonoDestino}?text=${mensaje}`, "_blank");
+const telefonoAdmin = "573227228786"; // TU WhatsApp real
+
+document.getElementById("lead-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById("nombre").value;
+  const telefono = document.getElementById("telefono").value;
+
+  if (!nombre || !telefono) {
+    alert("Por favor completa tus datos.");
+    return;
+  }
+
+  const consumo = consumoInput.value;
+  const presupuesto = presupuestoInput.value;
+  const sistema = resultadoFinal.textContent;
+
+  const mensaje = `
+Hola 👋
+Soy ${nombre}.
+
+Acabo de hacer una estimación solar:
+
+🔋 Consumo: ${consumo} kWh/mes
+⚡ Sistema estimado: ${sistema}
+💰 Presupuesto: $${Number(presupuesto).toLocaleString()} COP
+
+Quiero saber si es viable en mi caso
+y cómo continuar con una cotización real.
+`.trim();
+
+  // 👉 GUARDAR LEAD
+  guardarLead({
+    nombre,
+    telefono,
+    consumo,
+    presupuesto,
+    sistema,
+    escenario: "Interesado"
   });
-}
+
+  // 👉 ABRIR WHATSAPP
+  window.open(
+    `https://wa.me/${telefonoAdmin}?text=${encodeURIComponent(mensaje)}`,
+    "_blank"
+  );
+});
+
 
 // ===============================
 // REINICIAR CALCULADORA
