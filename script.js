@@ -63,7 +63,7 @@ function guardarLead(consumo, sistema) {
 
 // ====== ENVIAR LEAD AL BACKEND ======
 function enviarLead(lead) {
-  const ENDPOINT = "https://TU-ENDPOINT-AQUI.com/leads"; // luego lo cambiamos
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbyHq2NCgpfKIgPhIR0rrm2sO97glsI8D4-_Q8gMDdbVkmjK5N9vpVseJVAIHEki4MvTCA/exec"; // luego lo cambiamos
 
   fetch(ENDPOINT, {
     method: "POST",
