@@ -100,7 +100,7 @@ async function enviarLead() {
 
   try {
     // 🔹 GUARDAR EN GOOGLE SHEETS
-    await fetch("PEGA_AQUI_TU_URL_DE_APPS_SCRIPT", {
+    await fetch("https://script.google.com/macros/s/AKfycbxu5jCFRALorx1_SYUydLnc0W1slZTcIOOpm_-ekibcfNNlPMzmrYVeRQZu-UHpJgTC1Q/exec", {
       method: "POST",
       body: JSON.stringify(payload),
       headers: { "Content-Type": "application/json" }
