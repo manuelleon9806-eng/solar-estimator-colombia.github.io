@@ -1,58 +1,48 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f2f7f3;
-  padding: 30px;
-  max-width: 480px;
-  margin: auto;
+  background: #f4f6f8;
+  padding: 40px;
 }
 
 h1 {
-  color: #2e7d32;
+  margin-bottom: 30px;
 }
 
-h3 {
-  margin-top: 20px;
+.step {
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
 }
 
-input, select {
+.step.active {
+  display: block;
+}
+
+input, select, button {
   width: 100%;
   padding: 10px;
   margin-top: 10px;
 }
 
 button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  background: #2e7d32;
-  color: white;
+  background: #2ecc71;
   border: none;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
 }
 
 button:hover {
-  background: #256428;
+  background: #27ae60;
 }
 
-.hidden {
-  display: none;
-}
-
-#result {
-  margin-top: 20px;
-  background: white;
-  padding: 15px;
-  border-radius: 6px;
-}
-
-#whatsapp {
-  display: block;
+a {
+  display: inline-block;
   margin-top: 15px;
-  padding: 12px;
-  background: #25d366;
-  color: white;
-  text-align: center;
+  color: #25d366;
+  font-weight: bold;
   text-decoration: none;
-  border-radius: 6px;
 }
 
