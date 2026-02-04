@@ -1,136 +1,77 @@
-/*************************
- VARIABLES GLOBALES
-*************************/
-let pasoActual = 0;
-let consumo = 0;
-let presupuesto = 0;
+/***********************
+ ELEMENTOS
+***********************/
+const steps = document.querySelectorAll(".step");
+const btnStep1 = document.getElementById("btn-step-1");
+const btnStep2 = document.getElementById("btn-step-2");
+const btnRestart = document.getElementById("btn-restart");
 
-const pasos = document.querySelectorAll(".step");
-const progressBar = document.getElementById("progressBar");
+const consumoInput = document.getElementById("consumo");
+const presupuestoInput = document.getElementById("presupuesto");
 
-/*************************
+const resultadoFinal = document.getElementById("resultadoFinal");
+const resultadoTexto = document.getElementById("resultado");
+
+let currentStep = 0;
+
+/***********************
  CONTROL DE PASOS
-*************************/
-function mostrarPaso(index) {
-  pasos.forEach((paso, i) => {
-    paso.style.display = i === index ? "block" : "none";
+***********************/
+function showStep(index) {
+  steps.forEach((step, i) => {
+    step.style.display = i === index ? "block" : "none";
   });
-
-  progressBar.style.width = `${((index + 1) / pasos.length) * 100}%`;
 }
 
-function siguientePaso() {
-  if (pasoActual < pasos.length - 1) {
-    pasoActual++;
-    mostrarPaso(pasoActual);
-  }
-}
+showStep(currentStep);
 
-function pasoAnterior() {
-  if (pasoActual > 0) {
-    pasoActual--;
-    mostrarPaso(pasoActual);
-  }
-}
+/***********************
+ PASO 1 → PASO 2
+***********************/
+btnStep1.addEventListener("click", () => {
+  const consumo = Number(consumoInput.value);
 
-/*************************
- BOTONES DE PASOS
-*************************/
-document.querySelectorAll("[data-next]").forEach(btn => {
-  btn.addEventListener("click", siguientePaso);
-});
-
-document.querySelectorAll("[data-prev]").forEach(btn => {
-  btn.addEventListener("click", pasoAnterior);
-});
-
-/*************************
- CALCULO DE ESTIMACION
-*************************/
-function calcularEstimacion() {
-  consumo = Number(document.getElementById("consumo").value);
-  presupuesto = Number(document.getElementById("presupuesto").value);
-
-  if (!consumo || !presupuesto) {
-    alert("Completa consumo y presupuesto");
+  if (!consumo || consumo <= 0) {
+    alert("Ingresa un consumo válido en kWh");
     return;
   }
 
-  const paneles = Math.ceil(consumo / 40);
-  const potencia = (paneles * 550) / 1000;
+  currentStep = 1;
+  showStep(currentStep);
+});
 
-  const resultado = `
-🔆 Sistema estimado:
-• ${paneles} paneles
-• ${potencia.toFixed(2)} kWp
-• Ahorro aprox. 90% factura
-  `;
+/***********************
+ PASO 2 → PASO 3
+***********************/
+btnStep2.addEventListener("click", () => {
+  const consumo = Number(consumoInput.value);
+  const presupuesto = Number(presupuestoInput.value);
 
-  document.getElementById("resultadoFinal").innerText = resultado;
-
-  siguientePaso();
-}
-
-/*************************
- BOTON CALCULAR
-*************************/
-document.getElementById("btnCalcular").addEventListener("click", calcularEstimacion);
-
-/*************************
- ENVIAR LEAD + WHATSAPP
-*************************/
-document.getElementById("btnEnviar").addEventListener("click", enviarLead);
-
-async function enviarLead() {
-  const nombre = document.getElementById("nombre").value.trim();
-  const telefono = document.getElementById("telefono").value.trim();
-
-  if (!nombre || !telefono) {
-    alert("Completa nombre y WhatsApp");
+  if (!presupuesto || presupuesto <= 0) {
+    alert("Ingresa un presupuesto válido");
     return;
   }
 
-  const payload = {
-    nombre,
-    telefono,
-    consumo,
-    presupuesto,
-    fecha: new Date().toLocaleString()
-  };
+  // CÁLCULO SIMPLE
+  const kwp = (consumo / 120).toFixed(1);
 
-  try {
-    // 🔹 GUARDAR EN GOOGLE SHEETS
-    await fetch("https://script.google.com/macros/s/AKfycbxu5jCFRALorx1_SYUydLnc0W1slZTcIOOpm_-ekibcfNNlPMzmrYVeRQZu-UHpJgTC1Q/exec", {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: { "Content-Type": "application/json" }
-    });
+  resultadoFinal.textContent = `${kwp} kWp aprox`;
 
-    // 🔹 MENSAJE WHATSAPP
-    const mensaje = `
-Hola, soy ${nombre}.
-Hice una estimación solar y obtuve:
+  resultadoTexto.textContent =
+    presupuesto >= kwp * 4500000
+      ? "Con este presupuesto el sistema es viable para cubrir gran parte de tu consumo."
+      : "Con este presupuesto podrías iniciar con un sistema parcial y reducir tu factura.";
 
-🔋 Consumo: ${consumo} kWh
-💰 Presupuesto: $${presupuesto}
-⚡ Sistema recomendado: ${document.getElementById("resultadoFinal").innerText}
+  currentStep = 2;
+  showStep(currentStep);
+});
 
-Quiero asesoría personalizada.
-    `.trim();
-
-    const url = `https://wa.me/57${telefono}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
-
-  } catch (error) {
-    alert("Error guardando el lead");
-    console.error(error);
-  }
-}
-
-/*************************
- INICIAL
-*************************/
-mostrarPaso(pasoActual);
-
-
-
+/***********************
+ REINICIAR
+***********************/
+btnRestart.addEventListener("click", () => {
+  consumoInput.value = "";
+  presupuestoInput.value = "";
+  currentStep = 0;
+  showStep(currentStep);
+});
