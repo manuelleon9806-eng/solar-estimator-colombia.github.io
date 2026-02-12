@@ -11,11 +11,48 @@ const presupuestoInput = document.getElementById('presupuesto');
 const resultado = document.getElementById('resultado');
 const resultadoFinal = document.getElementById('resultadoFinal');
 const leadForm = document.getElementById('lead-form');
+
+// En script.js, agrega después de las consts DOM:
+const ciudadSelect = document.getElementById('ciudad');
+
+// Objeto con valores de irradiación (agrega al inicio, después de las variables globales):
 const irradiacionPorCiudad = {
-  bogota: 4.0,
-  medellin: 5.0,
+  leticia: 4.0,
+  medellin: 4.3,
+  arauca: 4.5,
+  barranquilla: 5.0,
+  cartagena: 5.0,
+  tunja: 4.5,
+  manizales: 4.5,
+  florencia: 4.0,
+  yopal: 5.0,
+  popayan: 4.5,
+  valledupar: 5.8,
+  quibdo: 3.5,
+  monteria: 5.0,
+  bogota: 4.2,
+  inirida: 4.2,
+  sanjosedelguaviare: 4.1,
+  neiva: 4.7,
+  riohacha: 6.0,
+  santamarta: 5.3,
+  villavicencio: 4.8,
+  pasto: 4.3,
+  cucuta: 4.8,
+  mocoa: 4.0,
+  armenia: 4.5,
+  pereira: 4.5,
+  sanandres: 5.5,
+  bucaramanga: 4.7,
+  sincelejo: 5.2,
+  ibague: 4.6,
   cali: 5.5,
-  // Agrega más de IDEAM
+  mitu: 4.0,
+  puertocarreno: 4.5
+};
+
+// En la función calcularResultado(), reemplaza la const irradiacionDiaria por:
+const irradiacionDiaria = irradiacionPorCiudad[ciudadSelect.value] || 4.5;  // Usa valor seleccionado o promedio nacional
 };
 let irradiacionDiaria = irradiacionPorCiudad[ciudadSelect.value] || 4.5; // En calcularResultado
 // Variables globales
