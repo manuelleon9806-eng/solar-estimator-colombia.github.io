@@ -11,11 +11,18 @@ const presupuestoInput = document.getElementById('presupuesto');
 const resultado = document.getElementById('resultado');
 const resultadoFinal = document.getElementById('resultadoFinal');
 const leadForm = document.getElementById('lead-form');
-
-// En script.js, agrega después de las consts DOM:
 const ciudadSelect = document.getElementById('ciudad');
 
-// Objeto con valores de irradiación (agrega al inicio, después de las variables globales):
+// Variables globales
+let consumo = 0;
+let presupuesto = 0;
+let costoEstimado = 0;
+
+// Factores reales para Colombia (eficiencia paneles: 20%, factor seguridad: 1.2)
+const eficienciaPanel = 0.20; // 20%
+const factorSeguridad = 1.2; // Para pérdidas y variabilidad
+
+// Irradiación por ciudad (promedio kWh/m²/día, basado en datos IDEAM aproximados)
 const irradiacionPorCiudad = {
   leticia: 4.0,
   medellin: 4.3,
@@ -51,20 +58,6 @@ const irradiacionPorCiudad = {
   puertocarreno: 4.5
 };
 
-// En la función calcularResultado(), reemplaza la const irradiacionDiaria por:
-const irradiacionDiaria = irradiacionPorCiudad[ciudadSelect.value] || 4.5;  // Usa valor seleccionado o promedio nacional
-};
-let irradiacionDiaria = irradiacionPorCiudad[ciudadSelect.value] || 4.5; // En calcularResultado
-// Variables globales
-let consumo = 0;
-let presupuesto = 0;
-let costoEstimado = 0;
-
-// Factores reales para Colombia (promedio irradiación: 4.5 kWh/m²/día, eficiencia paneles: 20%, factor seguridad: 1.2)
-const irradiacionDiaria = 4.5; // kWh/m²/día (promedio nacional, fuente IDEAM)
-const eficienciaPanel = 0.20; // 20%
-const factorSeguridad = 1.2; // Para pérdidas y variabilidad
-
 // Avanzar pasos
 btnStep1.addEventListener('click', () => {
   consumo = parseFloat(consumoInput.value);
@@ -91,6 +84,8 @@ btnStep2.addEventListener('click', () => {
 
 // Cálculo preciso
 function calcularResultado() {
+  const irradiacionDiaria = irradiacionPorCiudad[ciudadSelect.value] || 4.5;  // Usa valor seleccionado o promedio nacional
+
   // kWh diarios requeridos (asumiendo 30 días/mes)
   const kWhDiarios = (consumo / 30) * factorSeguridad;
 
