@@ -13,58 +13,57 @@
     <!-- Hero Section -->
     <header class="hero">
       <h1>Estimador Solar Colombia</h1>
-      <h2>Energía solar clara y sin vueltas</h2>
+      <h2>Energía solar clara, sin vueltas ni presiones</h2>
       <p>¿Cansado de buscar empresa por empresa? Aquí obtienes una estimación rápida y realista basada en datos de Colombia. Ideal para hogares y pequeños negocios.</p>
       <button class="cta-btn" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">
         Inicia tu estimación gratis
       </button>
     </header>
-<!-- En index.html, dentro de <div id="step-1">, antes del input de consumo: -->
-<h3>Selecciona tu ciudad principal (capital de departamento)</h3>
-<select id="ciudad">
-  <option value="leticia">Leticia (Amazonas) - 4.0 kWh/m²/día</option>
-  <option value="medellin">Medellín (Antioquia) - 4.3 kWh/m²/día</option>
-  <option value="arauca">Arauca (Arauca) - 4.5 kWh/m²/día</option>
-  <option value="barranquilla">Barranquilla (Atlántico) - 5.0 kWh/m²/día</option>
-  <option value="cartagena">Cartagena (Bolívar) - 5.0 kWh/m²/día</option>
-  <option value="tunja">Tunja (Boyacá) - 4.5 kWh/m²/día</option>
-  <option value="manizales">Manizales (Caldas) - 4.5 kWh/m²/día</option>
-  <option value="florencia">Florencia (Caquetá) - 4.0 kWh/m²/día</option>
-  <option value="yopal">Yopal (Casanare) - 5.0 kWh/m²/día</option>
-  <option value="popayan">Popayán (Cauca) - 4.5 kWh/m²/día</option>
-  <option value="valledupar">Valledupar (Cesar) - 5.8 kWh/m²/día</option>
-  <option value="quibdo">Quibdó (Chocó) - 3.5 kWh/m²/día</option>
-  <option value="monteria">Montería (Córdoba) - 5.0 kWh/m²/día</option>
-  <option value="bogota">Bogotá (Cundinamarca/D.C.) - 4.2 kWh/m²/día</option>
-  <option value="inirida">Inírida (Guainía) - 4.2 kWh/m²/día</option>
-  <option value="sanjosedelguaviare">San José del Guaviare (Guaviare) - 4.1 kWh/m²/día</option>
-  <option value="neiva">Neiva (Huila) - 4.7 kWh/m²/día</option>
-  <option value="riohacha">Riohacha (La Guajira) - 6.0 kWh/m²/día</option>
-  <option value="santamarta">Santa Marta (Magdalena) - 5.3 kWh/m²/día</option>
-  <option value="villavicencio">Villavicencio (Meta) - 4.8 kWh/m²/día</option>
-  <option value="pasto">Pasto (Nariño) - 4.3 kWh/m²/día</option>
-  <option value="cucuta">Cúcuta (Norte de Santander) - 4.8 kWh/m²/día</option>
-  <option value="mocoa">Mocoa (Putumayo) - 4.0 kWh/m²/día</option>
-  <option value="armenia">Armenia (Quindío) - 4.5 kWh/m²/día</option>
-  <option value="pereira">Pereira (Risaralda) - 4.5 kWh/m²/día</option>
-  <option value="sanandres">San Andrés (San Andrés y Providencia) - 5.5 kWh/m²/día</option>
-  <option value="bucaramanga">Bucaramanga (Santander) - 4.7 kWh/m²/día</option>
-  <option value="sincelejo">Sincelejo (Sucre) - 5.2 kWh/m²/día</option>
-  <option value="ibague">Ibagué (Tolima) - 4.6 kWh/m²/día</option>
-  <option value="cali">Cali (Valle del Cauca) - 5.5 kWh/m²/día</option>
-  <option value="mitu">Mitu (Vaupés) - 4.0 kWh/m²/día</option>
-  <option value="puertocarreno">Puerto Carreño (Vichada) - 4.5 kWh/m²/día</option>
-</select>
-    
+
     <!-- Calculator Section -->
     <section id="calculator" class="calculator-section">
       <div class="progress">
         <div id="progress-bar" class="progress-bar"></div>
       </div>
-     
+
       <!-- Paso 1: Consumo -->
       <div id="step-1" class="step active">
         <h2>Paso 1: ¿Cuál es tu consumo mensual de energía?</h2>
+        <h3>Selecciona tu ciudad principal (capital de departamento)</h3>
+        <select id="ciudad">
+          <option value="leticia">Leticia (Amazonas) - 4.0 kWh/m²/día</option>
+          <option value="medellin">Medellín (Antioquia) - 4.3 kWh/m²/día</option>
+          <option value="arauca">Arauca (Arauca) - 4.5 kWh/m²/día</option>
+          <option value="barranquilla">Barranquilla (Atlántico) - 5.0 kWh/m²/día</option>
+          <option value="cartagena">Cartagena (Bolívar) - 5.0 kWh/m²/día</option>
+          <option value="tunja">Tunja (Boyacá) - 4.5 kWh/m²/día</option>
+          <option value="manizales">Manizales (Caldas) - 4.5 kWh/m²/día</option>
+          <option value="florencia">Florencia (Caquetá) - 4.0 kWh/m²/día</option>
+          <option value="yopal">Yopal (Casanare) - 5.0 kWh/m²/día</option>
+          <option value="popayan">Popayán (Cauca) - 4.5 kWh/m²/día</option>
+          <option value="valledupar">Valledupar (Cesar) - 5.8 kWh/m²/día</option>
+          <option value="quibdo">Quibdó (Chocó) - 3.5 kWh/m²/día</option>
+          <option value="monteria">Montería (Córdoba) - 5.0 kWh/m²/día</option>
+          <option value="bogota">Bogotá (Cundinamarca/D.C.) - 4.2 kWh/m²/día</option>
+          <option value="inirida">Inírida (Guainía) - 4.2 kWh/m²/día</option>
+          <option value="sanjosedelguaviare">San José del Guaviare (Guaviare) - 4.1 kWh/m²/día</option>
+          <option value="neiva">Neiva (Huila) - 4.7 kWh/m²/día</option>
+          <option value="riohacha">Riohacha (La Guajira) - 6.0 kWh/m²/día</option>
+          <option value="santamarta">Santa Marta (Magdalena) - 5.3 kWh/m²/día</option>
+          <option value="villavicencio">Villavicencio (Meta) - 4.8 kWh/m²/día</option>
+          <option value="pasto">Pasto (Nariño) - 4.3 kWh/m²/día</option>
+          <option value="cucuta">Cúcuta (Norte de Santander) - 4.8 kWh/m²/día</option>
+          <option value="mocoa">Mocoa (Putumayo) - 4.0 kWh/m²/día</option>
+          <option value="armenia">Armenia (Quindío) - 4.5 kWh/m²/día</option>
+          <option value="pereira">Pereira (Risaralda) - 4.5 kWh/m²/día</option>
+          <option value="sanandres">San Andrés (San Andrés y Providencia) - 5.5 kWh/m²/día</option>
+          <option value="bucaramanga">Bucaramanga (Santander) - 4.7 kWh/m²/día</option>
+          <option value="sincelejo">Sincelejo (Sucre) - 5.2 kWh/m²/día</option>
+          <option value="ibague">Ibagué (Tolima) - 4.6 kWh/m²/día</option>
+          <option value="cali">Cali (Valle del Cauca) - 5.5 kWh/m²/día</option>
+          <option value="mitu">Mitu (Vaupés) - 4.0 kWh/m²/día</option>
+          <option value="puertocarreno">Puerto Carreño (Vichada) - 4.5 kWh/m²/día</option>
+        </select>
         <p>Ejemplo: Revisa tu factura de luz (promedio en kWh).</p>
         <input type="number" id="consumo" placeholder="Ej: 250 kWh" min="1" required>
         <button id="btn-step-1" class="next-btn">Siguiente</button>
