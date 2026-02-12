@@ -11,7 +11,13 @@ const presupuestoInput = document.getElementById('presupuesto');
 const resultado = document.getElementById('resultado');
 const resultadoFinal = document.getElementById('resultadoFinal');
 const leadForm = document.getElementById('lead-form');
-
+const irradiacionPorCiudad = {
+  bogota: 4.0,
+  medellin: 5.0,
+  cali: 5.5,
+  // Agrega más de IDEAM
+};
+let irradiacionDiaria = irradiacionPorCiudad[ciudadSelect.value] || 4.5; // En calcularResultado
 // Variables globales
 let consumo = 0;
 let presupuesto = 0;
